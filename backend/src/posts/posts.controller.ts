@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Put,
@@ -37,24 +38,23 @@ export class PostsController {
     summary: '특정 게시물 조회',
   })
   @Get(':id')
-  getPost(@Param('id') id: string) {
-    //? 파이프로 변환하는게 좋겠다.
-    const nId = parseInt(id, 10);
-    return this.postService.getPost(nId);
+  getPost(@Param('id', ParseIntPipe) id: number) {
+    return this.postService.getPost(id);
   }
 
   @ApiOperation({ summary: '특정 게시물 삭제' })
   @Delete(':id')
-  removePost(@Param('id') id: string) {
-    const nId = parseInt(id, 10);
-    return this.postService.removePost(nId);
+  removePost(@Param('id', ParseIntPipe) id: number) {
+    return this.postService.removePost(id);
   }
 
   @ApiOperation({ summary: '특정 게시물 업데이트' })
   @Put(':id') //? 한꺼번에 교체하는 방식이라 Put을 사용하였다.
-  updatePost(@Param('id') id: string, @Body() body: CreatePostDto) {
-    const nId = parseInt(id, 10);
-    return this.postService.updatePost(nId, body);
+  updatePost(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: CreatePostDto,
+  ) {
+    return this.postService.updatePost(id, body);
   }
 
   @ApiOperation({ summary: '특정 게시물에 댓글 등록' })
