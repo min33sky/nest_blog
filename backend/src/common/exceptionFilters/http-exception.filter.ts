@@ -15,12 +15,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
     const error = exception.getResponse() as
       | string // ex) new HttpException('에러메세지')
-      | { error: string; statusCode: number; message: string | string[] }; // ex) 404
+      | { error: string; statusCode: number; message: string | string[] }; // ex) BadRequestException, ...
 
     if (typeof error === 'string') {
       response.status(status).json({
         success: false,
-        errorType: 'string',
+        errorType: 'string', //? 필요없는 부분이니 지워도 된다
         statusCode: status,
         timestamp: new Date().toISOString(),
         path: request.url,

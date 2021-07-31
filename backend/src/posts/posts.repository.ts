@@ -19,6 +19,17 @@ export class PostsRepository {
   }
 
   async getPostById(id: string) {
-    return await this.postModel.findById(id);
+    return await this.postModel.findById(id).select('-__v');
+  }
+
+  async removePostById(id: string): Promise<Post> {
+    return await this.postModel.findByIdAndRemove(id).exec();
+  }
+
+  async updatePostById(id: string, body: any): Promise<Post> {
+    //? {new: true}일 경우 업데이트 된 데이터를 반환. false일 경우 업데이트 전 데이터 반환
+    return await this.postModel
+      .findByIdAndUpdate(id, body, { new: true })
+      .exec();
   }
 }

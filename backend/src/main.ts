@@ -2,7 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { HttpExceptionFilter } from 'src/common/exceptionFilters/http-exception.filter';
-import { SuccessInterceptor } from 'src/common/intercepters/success.interceptor';
+import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { AppModule } from './app.module';
 
 declare const module: any;

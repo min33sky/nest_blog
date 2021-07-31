@@ -54,6 +54,5 @@ PostSchema.virtual('readOnlyData').get(function (this: Post) {
     title: this.title,
     content: this.content,
     tags: this.tags,
-    timestamp: this.
   };
 });
