@@ -15,7 +15,7 @@ export class SuccessInterceptor implements NestInterceptor {
         success: true,
         data,
       })),
-      tap((data) => console.log('After ...... : ', data)),
+      tap((data) => console.log('After ......: ', data)),
     );
   }
 }
