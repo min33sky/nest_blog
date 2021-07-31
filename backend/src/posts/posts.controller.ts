@@ -5,12 +5,11 @@ import {
   Get,
   Param,
   ParseIntPipe,
-  Patch,
   Post,
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreatePostDto } from 'src/posts/dts/create-post.dto';
+import { CreatePostDto } from 'src/posts/dto/create-post.dto';
 import { PostsService } from 'src/posts/posts.service';
 
 @ApiTags('Posts')
@@ -30,7 +29,7 @@ export class PostsController {
     summary: '게시물 작성',
   })
   @Post()
-  createPost(@Body() body: CreatePostDto) {
+  async createPost(@Body() body: CreatePostDto) {
     return this.postService.createPost(body);
   }
 

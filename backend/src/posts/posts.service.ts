@@ -1,11 +1,8 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-import { CreatePostDto } from 'src/posts/dts/create-post.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreatePostDto } from 'src/posts/dto/create-post.dto';
+import { PostsRepository } from 'src/posts/posts.repository';
 
-let postId = 1;
+const postId = 1;
 
 const posts = [
   {
@@ -17,6 +14,8 @@ const posts = [
 
 @Injectable()
 export class PostsService {
+  constructor(private readonly postsRepositoy: PostsRepository) {}
+
   getAllPost() {
     return {
       success: true,
@@ -24,15 +23,13 @@ export class PostsService {
     };
   }
 
-  createPost(body: CreatePostDto) {
-    postId++;
-
-    const post = { id: postId, title: body.title, body: body.body };
-    posts.push(post);
+  async createPost(body: CreatePostDto) {
+    //* API 호출
+    const result = await this.postsRepositoy.create(body);
 
     return {
       success: true,
-      data: posts,
+      data: result,
     };
   }
 
@@ -63,10 +60,10 @@ export class PostsService {
     const pIndex = posts.findIndex((post) => post.id === id);
     if (pIndex === -1) throw new NotFoundException('해당 게시물이 없습니다.');
 
-    posts[pIndex] = {
-      id,
-      ...body,
-    };
+    // posts[pIndex] = {
+    //   id,
+    //   ...body,
+    // };
 
     return {
       success: true,
