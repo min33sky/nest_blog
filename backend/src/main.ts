@@ -1,13 +1,21 @@
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { HttpExceptionFilter } from 'src/common/exceptionFilters/http-exception.filter';
+import { SuccessInterceptor } from 'src/common/intercepters/success.interceptor';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  //* Validation
+  //* Global Validation
   app.useGlobalPipes(new ValidationPipe());
+
+  //* Global Interceptors
+  app.useGlobalInterceptors(new SuccessInterceptor());
+
+  //* Gloabl Filters
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   //* Swagger API document
   const config = new DocumentBuilder()

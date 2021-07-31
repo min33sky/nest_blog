@@ -1,11 +1,11 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { LoggerMiddleware } from 'src/common/middleware/logger.middleware';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
 import * as mongoose from 'mongoose';
+import { LoggerMiddleware } from 'src/common/middlewares/logger.middleware';
 
 @Module({
   imports: [

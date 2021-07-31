@@ -8,7 +8,12 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { CreatePostDto } from 'src/posts/dto/create-post.dto';
 import { PostsService } from 'src/posts/posts.service';
 
@@ -17,9 +22,8 @@ import { PostsService } from 'src/posts/posts.service';
 export class PostsController {
   constructor(private readonly postService: PostsService) {}
 
-  @ApiOperation({
-    summary: '모든 게시물 조회',
-  })
+  @ApiOkResponse({ description: '게시물 목록' })
+  @ApiOperation({ summary: '모든 게시물 조회' })
   @Get()
   getAllPosts() {
     return this.postService.getAllPost();
@@ -37,8 +41,8 @@ export class PostsController {
     summary: '특정 게시물 조회',
   })
   @Get(':id')
-  getPost(@Param('id', ParseIntPipe) id: number) {
-    return this.postService.getPost(id);
+  async getPost(@Param('id') id: string) {
+    return await this.postService.getPost(id);
   }
 
   @ApiOperation({ summary: '특정 게시물 삭제' })

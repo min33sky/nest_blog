@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePostDto } from 'src/posts/dto/create-post.dto';
 import { PostsRepository } from 'src/posts/posts.repository';
+import { Post } from 'src/posts/schemas/posts.schema';
 
 const postId = 1;
 
@@ -16,30 +17,22 @@ const posts = [
 export class PostsService {
   constructor(private readonly postsRepositoy: PostsRepository) {}
 
-  getAllPost() {
-    return {
-      success: true,
-      data: posts,
-    };
+  async getAllPost(): Promise<Post[]> {
+    return this.postsRepositoy.getAllPost();
   }
 
-  async createPost(body: CreatePostDto) {
-    //* API 호출
-    const result = await this.postsRepositoy.create(body);
-
-    return {
-      success: true,
-      data: result,
-    };
+  async getPost(id: string): Promise<Post> {
+    const post = await this.postsRepositoy.getPostById(id);
+    if (!post) {
+      throw new NotFoundException('해당하는 게시물이 없습니다.');
+    }
+    // ? 500에러를 잡아줘야 할듯
+    return post;
   }
 
-  getPost(id: number) {
-    const post = posts.find((post) => post.id === id);
-    if (!post) throw new NotFoundException('해당 게시물이 없어요..');
-    return {
-      success: true,
-      data: post,
-    };
+  async createPost(body: CreatePostDto): Promise<Post> {
+    const result = await this.postsRepositoy.createPost(body);
+    return result;
   }
 
   removePost(id: number) {

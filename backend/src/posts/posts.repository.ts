@@ -10,7 +10,15 @@ export class PostsRepository {
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
   ) {}
 
-  async create(post: CreatePostDto) {
-    return this.postModel.create(post);
+  async getAllPost(): Promise<Post[]> {
+    return await this.postModel.find().exec();
+  }
+
+  async createPost(post: CreatePostDto): Promise<Post> {
+    return await this.postModel.create(post);
+  }
+
+  async getPostById(id: string) {
+    return await this.postModel.findById(id);
   }
 }
