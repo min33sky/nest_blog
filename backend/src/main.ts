@@ -5,6 +5,8 @@ import { HttpExceptionFilter } from 'src/common/exceptionFilters/http-exception.
 import { SuccessInterceptor } from 'src/common/intercepters/success.interceptor';
 import { AppModule } from './app.module';
 
+declare const module: any;
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -24,9 +26,15 @@ async function bootstrap() {
     .setVersion('1.0.0')
     .addTag('blog')
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
   await app.listen(process.env.PORT);
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
 }
 bootstrap();
