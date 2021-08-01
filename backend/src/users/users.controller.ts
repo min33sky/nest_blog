@@ -1,4 +1,14 @@
-import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Req,
+  Get,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -7,6 +17,7 @@ import { ReadOnlyUserDto } from 'src/users/dto/user.dto';
 import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginResponseDto } from 'src/auth/dto/login.response.dto';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 
 @ApiTags('Users')
 @Controller('api/users')
@@ -15,6 +26,14 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
   ) {}
+
+  @ApiOperation({ summary: '내 정보 가져오기' })
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  getCurrentUser(@Req() req) {
+    console.log('req.user: ', req.user);
+    return req.user;
+  }
 
   @ApiOperation({ summary: '회원가입' })
   @ApiOkResponse({ description: '성공', type: ReadOnlyUserDto })
