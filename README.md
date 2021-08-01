@@ -6,6 +6,8 @@
 
 - Nestjs
 - mongoDB
+- jwt
+- passport
 
 ## Frontend Stack
 
