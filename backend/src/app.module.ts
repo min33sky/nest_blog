@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
 import * as mongoose from 'mongoose';
 import { LoggerMiddleware } from 'src/common/middlewares/logger.middleware';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +20,8 @@ import { LoggerMiddleware } from 'src/common/middlewares/logger.middleware';
     }),
 
     PostsModule,
+    UsersModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -35,25 +35,8 @@ export class Post extends Document {
     required: false,
   })
   @IsString({ each: true }) //? stringp[] 검증
-  @Prop()
+  @Prop([String])
   tags: string[];
-
-  //? 딱히 필요없을 듯??
-  readonly readOnlyData: {
-    id: string;
-    title: string;
-    content: string;
-    tags: string[];
-  };
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
-
-PostSchema.virtual('readOnlyData').get(function (this: Post) {
-  return {
-    id: this.id,
-    title: this.title,
-    content: this.content,
-    tags: this.tags,
-  };
-});
