@@ -10,9 +10,7 @@ export class PostsRepository {
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
   ) {}
 
-  async getAllPost(
-    page: string,
-  ): Promise<{ posts: Post[]; totalPostCount: number }> {
+  async getAllPost(page: string) {
     const pageNum: number = parseInt(page || '1', 10);
 
     //? 최신 게시물부터 보여주기
@@ -21,12 +19,22 @@ export class PostsRepository {
       .sort({ _id: -1 })
       .limit(3)
       .skip((pageNum - 1) * 3)
+      .lean() //? JSON 형태로 조회하기
       .exec();
 
     const totalPostCount = await this.postModel.countDocuments().exec();
 
+    // ? 게시물 내용이 길 경우 간략하게 줄여서 보내기
+    const modified = posts.map((post) => ({
+      ...post,
+      content:
+        post.content.length < 7
+          ? post.content
+          : `${post.content.slice(0, 7)}...`,
+    }));
+
     return {
-      posts,
+      posts: modified,
       totalPostCount,
     };
   }
