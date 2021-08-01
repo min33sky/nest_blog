@@ -1,26 +1,22 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  Get,
-} from '@nestjs/common';
+import { Controller, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { ApiOperation, ApiProperty } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ReadOnlyUserDto } from 'src/users/dto/user.dto';
 
+@ApiTags('Users')
 @Controller('api/users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOkResponse({ description: '성공', type: ReadOnlyUserDto })
   @ApiOperation({ summary: '회원가입' })
   @Post()
-  signUp(@Body() createUserDto: CreateUserDto) {
-    return '회원가입';
-    // return this.usersService.create(createUserDto);
+  async signUp(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<{ id: string; email: string; nickname: string }> {
+    return await this.usersService.create(createUserDto);
   }
 
   @Post(':id')

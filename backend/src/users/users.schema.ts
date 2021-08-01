@@ -38,6 +38,20 @@ export class User extends Document {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  readonly readOnlyData: {
+    id: string;
+    email: string;
+    nickname: string;
+  };
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.virtual('readOnlyData').get(function (this: User) {
+  return {
+    id: this.id,
+    email: this.email,
+    nickname: this.nickname,
+  };
+});
