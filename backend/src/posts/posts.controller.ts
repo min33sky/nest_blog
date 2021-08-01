@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreatePostDto } from 'src/posts/dto/create-post.dto';
@@ -21,8 +22,10 @@ export class PostsController {
   @ApiOkResponse({ description: '게시물 목록' })
   @ApiOperation({ summary: '모든 게시물 조회' })
   @Get()
-  getAllPosts() {
-    return this.postService.getAllPost();
+  async getAllPosts(@Query('page') page) {
+    //? parseIntPipe를 쓰면 page가 없을 경우 에러남
+    const result = await this.postService.getAllPost(page);
+    return result;
   }
 
   @ApiOperation({ summary: '게시물 작성' })

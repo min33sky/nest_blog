@@ -38,6 +38,7 @@ export class Post extends Document {
   @Prop()
   tags: string[];
 
+  //? 딱히 필요없을 듯??
   readonly readOnlyData: {
     id: string;
     title: string;

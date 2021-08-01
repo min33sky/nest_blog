@@ -8,8 +8,10 @@ import { Post } from 'src/posts/schemas/posts.schema';
 export class PostsService {
   constructor(private readonly postsRepositoy: PostsRepository) {}
 
-  async getAllPost(): Promise<Post[]> {
-    return this.postsRepositoy.getAllPost();
+  async getAllPost(
+    page: string,
+  ): Promise<{ posts: Post[]; totalPostCount: number }> {
+    return this.postsRepositoy.getAllPost(page);
   }
 
   async getPost(id: string) {
