@@ -4,14 +4,20 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ReadOnlyUserDto } from 'src/users/dto/user.dto';
+import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
+import { AuthService } from 'src/auth/auth.service';
+import { LoginResponseDto } from 'src/auth/dto/login.response.dto';
 
 @ApiTags('Users')
 @Controller('api/users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
-  @ApiOkResponse({ description: '성공', type: ReadOnlyUserDto })
   @ApiOperation({ summary: '회원가입' })
+  @ApiOkResponse({ description: '성공', type: ReadOnlyUserDto })
   @Post()
   async signUp(
     @Body() createUserDto: CreateUserDto,
@@ -19,9 +25,14 @@ export class UsersController {
     return await this.usersService.create(createUserDto);
   }
 
-  @Post(':id')
-  login(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  @ApiOperation({ summary: '로그인' })
+  @ApiOkResponse({
+    description: '로그인 성공',
+    type: LoginResponseDto,
+  })
+  @Post('login')
+  login(@Body() loginRequestDto: LoginRequestDto): Promise<{ token: string }> {
+    return this.authService.jwtLogin(loginRequestDto);
   }
 
   @Patch(':id')

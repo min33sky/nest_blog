@@ -19,8 +19,8 @@ import { PostsService } from 'src/posts/posts.service';
 export class PostsController {
   constructor(private readonly postService: PostsService) {}
 
-  @ApiOkResponse({ description: '게시물 목록' })
   @ApiOperation({ summary: '모든 게시물 조회' })
+  @ApiOkResponse({ description: '게시물 목록' })
   @Get()
   async getAllPosts(@Query('page') page) {
     //? parseIntPipe를 쓰면 page가 없을 경우 에러남

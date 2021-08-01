@@ -17,4 +17,12 @@ export class UserRepository {
   async createUser(user: CreateUserDto) {
     return await this.userModel.create(user);
   }
+
+  async findUserByIdWithoutPassword(userId: string) {
+    return await this.userModel.findById(userId).select('-password').exec();
+  }
+
+  async findUserByEmail(email: string) {
+    return await this.userModel.findOne({ email }).exec();
+  }
 }
