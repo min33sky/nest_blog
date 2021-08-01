@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     );
 
     if (user) {
-      return user; //* req.user에 유저 정보 저장
+      return user; //* passport에서 req.user에 유저 정보 저장
     } else {
       throw new UnauthorizedException('접근 불가');
     }

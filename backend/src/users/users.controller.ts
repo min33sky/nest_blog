@@ -18,6 +18,8 @@ import { LoginRequestDto } from 'src/auth/dto/login.request.dto';
 import { AuthService } from 'src/auth/auth.service';
 import { LoginResponseDto } from 'src/auth/dto/login.response.dto';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
+import { CurrentUser } from 'src/common/decorators/user.decorator';
+import { User } from 'src/users/users.schema';
 
 @ApiTags('Users')
 @Controller('api/users')
@@ -30,9 +32,9 @@ export class UsersController {
   @ApiOperation({ summary: '내 정보 가져오기' })
   @UseGuards(JwtAuthGuard)
   @Get()
-  getCurrentUser(@Req() req) {
-    console.log('req.user: ', req.user);
-    return req.user;
+  getCurrentUser(@CurrentUser() user: User) {
+    console.log('req.user: ', user);
+    return user;
   }
 
   @ApiOperation({ summary: '회원가입' })
