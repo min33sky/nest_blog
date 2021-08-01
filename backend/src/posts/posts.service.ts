@@ -17,7 +17,7 @@ export class PostsService {
     if (!post) throw new NotFoundException('해당하는 게시물이 없습니다.');
 
     // ? 500에러를 잡아줘야 할듯
-    return post;
+    return post.readOnlyData;
   }
 
   async createPost(body: CreatePostDto): Promise<Post> {

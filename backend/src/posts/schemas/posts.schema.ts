@@ -34,7 +34,7 @@ export class Post extends Document {
     description: 'Tag',
     required: false,
   })
-  @IsString({ each: true })
+  @IsString({ each: true }) //? stringp[] 검증
   @Prop()
   tags: string[];
 
