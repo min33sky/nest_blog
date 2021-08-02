@@ -1,8 +1,8 @@
-import Login from '@pages/Login';
-import Post from '@pages/Post';
-import PostList from '@pages/PostList';
-import Register from '@pages/Register';
-import Write from '@pages/Write';
+import Login from '@pages/Login/LoginPage';
+import Post from '@pages/Post/PostPage';
+import PostList from '@pages/PostList/PostListPage';
+import Register from '@pages/Register/RegisterPage';
+import Write from '@pages/Write/WritePage';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
