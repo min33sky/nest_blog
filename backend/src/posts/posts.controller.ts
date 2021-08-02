@@ -28,9 +28,18 @@ export class PostsController {
   @ApiOkResponse({ description: '게시물 목록' })
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getAllPosts(@Query('page') page) {
-    //? parseIntPipe를 쓰면 page가 없을 경우 에러남
-    return await this.postService.getAllPost(page);
+  async getAllPosts(
+    @Query('page') page: string,
+    @Query('nickname') nickname: string,
+    @Query('tag') tag: string,
+  ) {
+    /**
+     * ? querystring이 없을 경우에 pipe를 쓰면 에러가 난다
+     * ? 한글 처리를 위해 decodeURI()를 사용하자
+     */
+    const decodedTag = decodeURI(tag);
+    const decodedNickname = decodeURI(nickname);
+    return await this.postService.getAllPost(page, decodedNickname, decodedTag);
   }
 
   @ApiOperation({ summary: '게시물 작성' })
@@ -58,6 +67,7 @@ export class PostsController {
   @Delete(':id')
   async removePost(@Param('id') id: string, @CurrentUser() user: User) {
     const post = await this.postService.getPost(id);
+    //? objectId와 string을 비교할 땐 string형으로 변환 후 비교하자
     if (post.user._id.toString() !== user.id) {
       throw new UnauthorizedException('게시물의 작성자가 아닙니다.');
     }

@@ -11,12 +11,19 @@ export class PostsRepository {
     @InjectModel(Post.name) private readonly postModel: Model<Post>,
   ) {}
 
-  async getAllPost(page: string) {
+  async getAllPost(page: string, nickname: string, tag: string) {
     const pageNum: number = parseInt(page || '1', 10);
+
+    const query = {
+      ...(nickname ? { 'user.nickname': nickname } : {}),
+      ...(tag ? { tags: tag } : {}),
+    };
+
+    console.log('query: ', query);
 
     //? 최신 게시물부터 보여주기
     const posts = await this.postModel
-      .find()
+      .find(query)
       .sort({ _id: -1 })
       .limit(3)
       .skip((pageNum - 1) * 3)

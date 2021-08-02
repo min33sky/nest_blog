@@ -9,8 +9,8 @@ import { User } from 'src/users/users.schema';
 export class PostsService {
   constructor(private readonly postsRepositoy: PostsRepository) {}
 
-  async getAllPost(page: string) {
-    return this.postsRepositoy.getAllPost(page);
+  async getAllPost(page: string, nickname: string, tag: string) {
+    return this.postsRepositoy.getAllPost(page, nickname, tag);
   }
 
   async getPost(id: string) {
