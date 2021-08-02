@@ -48,7 +48,10 @@ export class Post extends Document {
   @ApiProperty({
     description: '작성자 정보',
   })
-  @Prop(Writer)
+  @Prop({
+    type: Writer,
+    required: true,
+  })
   user: Writer;
 }
 

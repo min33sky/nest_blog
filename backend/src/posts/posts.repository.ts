@@ -23,9 +23,10 @@ export class PostsRepository {
       .lean() //? JSON 형태로 조회하기
       .exec();
 
+    //? 게시물의 총 개수
     const totalPostCount = await this.postModel.countDocuments().exec();
 
-    // ? 게시물 내용이 길 경우 간략하게 줄여서 보내기
+    //? 게시물 내용이 길 경우 간략하게 줄여서 보내기
     const modified = posts.map((post) => ({
       ...post,
       content:

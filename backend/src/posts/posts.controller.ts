@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -29,8 +30,7 @@ export class PostsController {
   @Get()
   async getAllPosts(@Query('page') page) {
     //? parseIntPipe를 쓰면 page가 없을 경우 에러남
-    const result = await this.postService.getAllPost(page);
-    return result;
+    return await this.postService.getAllPost(page);
   }
 
   @ApiOperation({ summary: '게시물 작성' })
@@ -54,15 +54,31 @@ export class PostsController {
   }
 
   @ApiOperation({ summary: '특정 게시물 삭제' })
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  async removePost(@Param('id') id: string) {
+  async removePost(@Param('id') id: string, @CurrentUser() user: User) {
+    const post = await this.postService.getPost(id);
+    if (post.user._id.toString() !== user.id) {
+      throw new UnauthorizedException('게시물의 작성자가 아닙니다.');
+    }
+
     return await this.postService.removePost(id);
   }
 
   @ApiOperation({ summary: '특정 게시물 업데이트' })
+  @UseGuards(JwtAuthGuard)
   @Patch(':id') //? 한꺼번에 교체하는 방식이라 Put을 사용하였다.
-  updatePost(@Param('id') id: string, @Body() body: UpdatePostDto) {
-    return this.postService.updatePost(id, body);
+  async updatePost(
+    @Param('id') id: string,
+    @Body() updatePostDto: UpdatePostDto,
+    @CurrentUser() user: User,
+  ) {
+    const post = await this.postService.getPost(id);
+    if (post.user._id.toString() !== user.id) {
+      throw new UnauthorizedException('게시물의 작성자가 아닙니다.');
+    }
+
+    return await this.postService.updatePost(id, updatePostDto);
   }
 
   @ApiOperation({ summary: '특정 게시물에 댓글 등록' })
