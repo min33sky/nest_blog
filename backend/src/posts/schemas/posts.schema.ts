@@ -1,11 +1,18 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
+import * as mongoose from 'mongoose';
 import { Document, SchemaOptions } from 'mongoose';
 
 const options: SchemaOptions = {
   timestamps: true,
 };
+
+export class Writer {
+  _id: mongoose.Types.ObjectId;
+  email: string;
+  nickname: string;
+}
 
 @Schema(options)
 export class Post extends Document {
@@ -16,7 +23,7 @@ export class Post extends Document {
   })
   @IsString()
   @IsNotEmpty()
-  @Prop()
+  @Prop({ required: true })
   title: string;
 
   @ApiProperty({
@@ -26,7 +33,7 @@ export class Post extends Document {
   })
   @IsString()
   @IsNotEmpty()
-  @Prop()
+  @Prop({ required: true })
   content: string;
 
   @ApiProperty({
@@ -37,6 +44,12 @@ export class Post extends Document {
   @IsString({ each: true }) //? stringp[] 검증
   @Prop([String])
   tags: string[];
+
+  @ApiProperty({
+    description: '작성자 정보',
+  })
+  @Prop(Writer)
+  user: Writer;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

@@ -52,9 +52,13 @@ export class UsersController {
     type: LoginResponseDto,
   })
   @Post('login')
-  login(@Body() loginRequestDto: LoginRequestDto): Promise<{ token: string }> {
+  login(
+    @Body() loginRequestDto: LoginRequestDto,
+  ): Promise<{ access_token: string }> {
     return this.authService.jwtLogin(loginRequestDto);
   }
+
+  //************************************************* 구현 예정 *********************************** */
 
   @Patch(':id')
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

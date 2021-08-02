@@ -3,6 +3,7 @@ import { CreatePostDto } from 'src/posts/dto/create-post.dto';
 import { UpdatePostDto } from 'src/posts/dto/update-post.dto';
 import { PostsRepository } from 'src/posts/posts.repository';
 import { Post } from 'src/posts/schemas/posts.schema';
+import { User } from 'src/users/users.schema';
 
 @Injectable()
 export class PostsService {
@@ -20,8 +21,8 @@ export class PostsService {
     return post;
   }
 
-  async createPost(body: CreatePostDto): Promise<Post> {
-    const result = await this.postsRepositoy.createPost(body);
+  async createPost(createPostDto: CreatePostDto, user: User) {
+    const result = await this.postsRepositoy.createPost(createPostDto, user);
     return result;
   }
 

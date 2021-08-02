@@ -17,7 +17,9 @@ export class AuthService {
    * @param loginRequestDto
    * @returns authentication token
    */
-  async jwtLogin(loginRequestDto: LoginRequestDto): Promise<{ token: string }> {
+  async jwtLogin(
+    loginRequestDto: LoginRequestDto,
+  ): Promise<{ access_token: string }> {
     const { email, password } = loginRequestDto;
 
     //* 이메일이 존재하는지 확인
@@ -38,7 +40,7 @@ export class AuthService {
     const payload: Payload = { email: email, sub: user.id }; //? sub: 토큰 제목
 
     return {
-      token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign(payload),
     };
   }
 }
