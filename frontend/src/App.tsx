@@ -1,8 +1,8 @@
-import Login from '@pages/Login/LoginPage';
-import Post from '@pages/Post/PostPage';
-import PostList from '@pages/PostList/PostListPage';
-import Register from '@pages/Register/RegisterPage';
-import Write from '@pages/Write/WritePage';
+import LoginPage from '@pages/Login/LoginPage';
+import PostPage from '@pages/Post/PostPage';
+import PostListPage from '@pages/PostList/PostListPage';
+import RegisterPage from '@pages/Register/RegisterPage';
+import WritePage from '@pages/Write/WritePage';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
@@ -10,11 +10,11 @@ export default function App() {
   return (
     <>
       <Switch>
-        <Route component={PostList} exact path={['/@:username', '/']} />
-        <Route component={Login} path="/login" />
-        <Route component={Register} path="/register" />
-        <Route component={Write} path="/write" />
-        <Route component={Post} path="/@:nickname/:postId" />
+        <Route component={PostListPage} exact path={['/@:username', '/']} />
+        <Route component={LoginPage} path="/login" />
+        <Route component={RegisterPage} path="/register" />
+        <Route component={WritePage} path="/write" />
+        <Route component={PostPage} path="/@:nickname/:postId" />
       </Switch>
     </>
   );

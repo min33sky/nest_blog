@@ -22,7 +22,7 @@ const config: webpack.Configuration = {
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: {
-      '@': path.resolve(__dirname, 'src/'),
+      '@': path.resolve(__dirname, 'src'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@components': path.resolve(__dirname, 'src/components'),
       '@layouts': path.resolve(__dirname, 'src/layouts'),

@@ -13,14 +13,14 @@
     // 모듈을 상대 주소가 아닌 별칭으로 불러오게 설정
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
       "@hooks/*": ["src/hooks/*"],
       "@components/*": ["src/components/*"],
       "@layouts/*": ["src/layouts/*"],
       "@store/*": ["src/store/*"],
       "@pages/*": ["src/pages/*"],
       "@utils/*": ["src/utils/*"],
-      "@typings/*": ["src/typings/*"]
+      "@typings/*": ["src/typings/*"],
+      "@/*": ["src/*"]
     }
   }
 }
