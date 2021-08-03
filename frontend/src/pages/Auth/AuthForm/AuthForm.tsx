@@ -26,6 +26,18 @@ function AuthForm({ type }: IAuthForm) {
           type="password"
         />
 
+        {type === 'Register' && (
+          <>
+            <StyledInput
+              autoComplete="new-password"
+              name="passwordConfirm"
+              placeholder="비밀번호 확인"
+              type="password"
+            />
+            <StyledInput autoComplete="nickname" name="nickname" placeholder="닉네임" />
+          </>
+        )}
+
         <ButtonWithMarginTop cyan fullWidth>
           {type === 'Login' ? '로그인' : '회원가입'}
         </ButtonWithMarginTop>
