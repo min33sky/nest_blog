@@ -1,11 +1,11 @@
-import AuthLayout from '@pages/Auth/layouts/AuthLayout';
-import LoginForm from '@pages/Auth/Login/LoginForm/LoginForm';
+import AuthForm from '@pages/Auth/AuthForm/AuthForm';
+import AuthLayout from '@pages/Auth/Layouts/AuthLayout';
 import React from 'react';
 
 function LoginPage() {
   return (
     <AuthLayout>
-      <LoginForm />
+      <AuthForm type="Login" />
     </AuthLayout>
   );
 }

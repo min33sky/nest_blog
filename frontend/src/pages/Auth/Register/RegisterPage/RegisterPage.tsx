@@ -1,11 +1,11 @@
-import AuthLayout from '@pages/Auth/layouts/AuthLayout';
-import RegisterForm from '@pages/Auth/Register/RegisterForm/RegisterForm';
+import AuthForm from '@pages/Auth/AuthForm/AuthForm';
+import AuthLayout from '@pages/Auth/Layouts/AuthLayout';
 import React from 'react';
 
 function RegisterPage() {
   return (
     <AuthLayout>
-      <RegisterForm />
+      <AuthForm type="Register" />
     </AuthLayout>
   );
 }
