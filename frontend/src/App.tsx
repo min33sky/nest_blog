@@ -1,7 +1,7 @@
-import LoginPage from '@pages/Login/LoginPage';
+import LoginPage from '@pages/Login/LoginPage/LoginPage';
 import PostPage from '@pages/Post/PostPage';
 import PostListPage from '@pages/PostList/PostListPage';
-import RegisterPage from '@pages/Register/RegisterPage';
+import RegisterPage from '@pages/Register/RegisterForm/RegisterPage';
 import WritePage from '@pages/Write/WritePage';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
