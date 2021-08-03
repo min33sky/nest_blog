@@ -48,8 +48,11 @@
     "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies,
 
     "consistent-return": "off",
-    "no-plusplus": "off"
+    "no-plusplus": "off",
     // "import/no-unresolved": "off"
+
+    "react/require-default-props": "off", // Since we do not use prop-types
+    "react/jsx-props-no-spreading": "off"
   },
   "settings": {
     "import/parsers": {
