@@ -16,8 +16,7 @@ function RegisterForm() {
   const [mismatchError, setMismatchError] = useState(false); // 패스워드 일치 여부
 
   /**
-   * 패스워드 입력 및 검증 핸들러
-   * ! BUG 있음. 비동기라서 상태값이 다름
+   * 패스워드 & 패스워드 확인 인풋 핸들러
    */
   const onChangePasswordAndCheck = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +30,9 @@ function RegisterForm() {
     [setPassword, setPasswordCheck]
   );
 
+  /**
+   * 비밀번호 & 비밀번호 확인 일치 여부
+   */
   const checkPassword = useCallback(() => {
     console.log('password, passwordCheck:', password, passwordCheck);
     setMismatchError(password !== passwordCheck);

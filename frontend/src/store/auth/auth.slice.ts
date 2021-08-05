@@ -1,17 +1,27 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface AuthState {}
+export interface AuthState {
+  token: string | undefined;
+}
 
-const initialState: AuthState = {};
+const initialState: AuthState = {
+  token: undefined,
+};
 
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    sample: (state) => {},
+    setToken: (state, action: PayloadAction<string>) => {
+      state.token = action.payload;
+    },
+    removeToken: (state) => {
+      // TODO: 토큰 삭제하기 (로그아웃)
+      return state;
+    },
   },
 });
 
-export const { sample } = authSlice.actions;
+export const { setToken, removeToken } = authSlice.actions;
 
 export default authSlice.reducer;

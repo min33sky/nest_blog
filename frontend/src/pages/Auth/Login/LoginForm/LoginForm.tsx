@@ -5,20 +5,44 @@ import {
   ButtonWithMarginTop,
   AuthFormFooter,
 } from '@pages/Auth/AuthForm/AuthForm.styles';
-import React, { useCallback } from 'react';
+import { setToken } from '@store/auth/auth.slice';
+import axios from 'axios';
+import React, { useCallback, useEffect } from 'react';
+import { useMutation, useQueryClient } from 'react-query';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 function LoginForm() {
   const { value: email, handler: onChangeEmail } = useInput('');
   const { value: password, handler: onChangePassword } = useInput('');
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
+  // ? react-query를 사용해서 뮤테이트
+  const mutation = useMutation(
+    (loginData: { email: string; password: string }) => axios.post('/api/users/login', loginData),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('userStatus');
+      },
+    }
+  );
 
   const onSubmitForm = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
       console.log('로그인 정보: ', email, password);
+
+      mutation.mutate({ email, password });
     },
-    [email, password]
+    [email, password, mutation]
   );
+
+  useEffect(() => {
+    console.log('뮤테이션 데이터:', mutation.data?.data.data.access_token);
+    const token = mutation.data?.data.data.access_token;
+    dispatch(setToken(token));
+  }, [mutation.data, dispatch]);
 
   return (
     <AuthFormContainer>
