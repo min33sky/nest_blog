@@ -42,6 +42,7 @@ function LoginForm() {
     console.log('뮤테이션 데이터:', mutation.data?.data.data.access_token);
     const token = mutation.data?.data.data.access_token;
     dispatch(setToken(token));
+    localStorage.setItem('access_token', token);
   }, [mutation.data, dispatch]);
 
   return (
