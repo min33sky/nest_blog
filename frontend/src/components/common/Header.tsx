@@ -1,7 +1,13 @@
 import Button from '@components/common/Button';
 import Responsive from '@components/common/Responsive';
 import styled from '@emotion/styled';
-import React from 'react';
+import { getUserStatus } from '@pages/Auth/Login/LoginPage/LoginPage';
+import { removeToken } from '@store/auth/auth.slice';
+import { RootState } from '@store/store';
+import { IUserStatus } from '@typings/user';
+import React, { useState } from 'react';
+import { useQuery, useQueryClient } from 'react-query';
+import { useDispatch, useSelector } from 'react-redux';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -38,15 +44,44 @@ const Spacer = styled.div`
   height: 4rem;
 `;
 
+const UserInfo = styled.div`
+  font-weight: 800;
+  margin-right: 1rem;
+`;
+
 function Header() {
+  const token = useSelector((state: RootState) => state.auth.token);
+  const dispatch = useDispatch();
+  const queryClient = useQueryClient();
+
+  const { status, data, error } = useQuery('userStatus', () => getUserStatus(token), {
+    enabled: !!token, // ? 토큰이 없으면 No Fetch~
+  });
+
+  console.log('--헤더 데이터: ', data?.data);
+
+  const onLogout = () => {
+    console.log('로 그 아 웃');
+    dispatch(removeToken());
+    queryClient.setQueriesData('userStatus', undefined); // ? 리패치 대신 직접 캐시된 값을 수정한다.
+  };
+
   return (
     <>
       <HeaderBlock>
         <Wrapper>
           <div className="logo">NEST BLOG</div>
-          <div className="right">
-            <Button>로그인</Button>
-          </div>
+          {data && (
+            <div className="right">
+              <UserInfo>{data.data.nickname}</UserInfo>
+              <Button onClick={onLogout}>로그아웃</Button>
+            </div>
+          )}
+          {!data && (
+            <div className="right">
+              <Button to="/login">로그인</Button>
+            </div>
+          )}
         </Wrapper>
       </HeaderBlock>
       <Spacer />

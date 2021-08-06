@@ -1,18 +1,20 @@
 import AuthLayout from '@pages/Auth/Layouts/AuthLayout';
 import LoginForm from '@pages/Auth/Login/LoginForm/LoginForm';
 import { RootState } from '@store/store';
-import axios from 'axios';
+import { IUserStatus } from '@typings/user';
+import axios, { AxiosResponse } from 'axios';
 import React from 'react';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 
 export async function getUserStatus(token?: string) {
-  const { data } = await axios.get('/api/users', {
+  const { data } = await axios.get<IUserStatus>('/api/users', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+
   return data;
 }
 

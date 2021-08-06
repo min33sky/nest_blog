@@ -17,7 +17,7 @@ export const authSlice = createSlice({
     },
     removeToken: (state) => {
       // TODO: 토큰 삭제하기 (로그아웃)
-      return state;
+      state.token = undefined;
     },
   },
 });
