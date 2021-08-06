@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 
-async function getUserStatus(token?: string) {
+export async function getUserStatus(token?: string) {
   const { data } = await axios.get('/api/users', {
     headers: {
       Authorization: `Bearer ${token}`,
