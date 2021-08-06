@@ -53,7 +53,8 @@
     // "import/no-unresolved": "off"
 
     "react/require-default-props": "off", // Since we do not use prop-types
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "camelcase": "off"
   },
   "settings": {
     "import/parsers": {

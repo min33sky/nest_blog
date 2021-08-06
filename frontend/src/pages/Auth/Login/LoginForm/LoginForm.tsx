@@ -4,13 +4,19 @@ import {
   StyledInput,
   ButtonWithMarginTop,
   AuthFormFooter,
-} from '@pages/Auth/AuthForm/AuthForm.styles';
+} from '@pages/Auth/Layouts/AuthForm.styles';
 import { setToken } from '@store/auth/auth.slice';
-import axios from 'axios';
+import { LoginResponse } from '@typings/user';
+import axios, { AxiosResponse } from 'axios';
 import React, { useCallback, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+
+export async function loginRequest(loginData: { email: string; password: string }) {
+  const { data } = await axios.post<AxiosResponse<LoginResponse>>('/api/users/login', loginData);
+  return data;
+}
 
 function LoginForm() {
   const { value: email, handler: onChangeEmail } = useInput('');
@@ -19,14 +25,16 @@ function LoginForm() {
   const queryClient = useQueryClient();
 
   // ? react-query를 사용해서 뮤테이트
-  const mutation = useMutation(
-    (loginData: { email: string; password: string }) => axios.post('/api/users/login', loginData),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('userStatus');
-      },
-    }
-  );
+  const mutation = useMutation(loginRequest, {
+    onSuccess: (data) => {
+      console.log('로그인 성공');
+      console.log('데 이 터: ', data.data.access_token);
+      const token = data.data.access_token;
+      dispatch(setToken(token));
+      localStorage.setItem('access_token', token);
+      queryClient.invalidateQueries('userStatus');
+    },
+  });
 
   const onSubmitForm = useCallback(
     (e: React.FormEvent) => {
@@ -37,13 +45,6 @@ function LoginForm() {
     },
     [email, password, mutation]
   );
-
-  useEffect(() => {
-    console.log('뮤테이션 데이터:', mutation.data?.data.data.access_token);
-    const token = mutation.data?.data.data.access_token;
-    dispatch(setToken(token));
-    localStorage.setItem('access_token', token);
-  }, [mutation.data, dispatch]);
 
   return (
     <AuthFormContainer>

@@ -4,7 +4,7 @@ import {
   StyledInput,
   ButtonWithMarginTop,
   AuthFormFooter,
-} from '@pages/Auth/AuthForm/AuthForm.styles';
+} from '@pages/Auth/Layouts/AuthForm.styles';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
