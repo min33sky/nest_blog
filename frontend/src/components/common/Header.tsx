@@ -4,10 +4,10 @@ import styled from '@emotion/styled';
 import { getUserStatus } from '@pages/Auth/Login/LoginPage/LoginPage';
 import { removeToken } from '@store/auth/auth.slice';
 import { RootState } from '@store/store';
-import { IUserStatus } from '@typings/user';
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery, useQueryClient } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const HeaderBlock = styled.div`
   position: fixed;
@@ -25,13 +25,13 @@ const Wrapper = styled(Responsive)`
   align-items: center;
   justify-content: space-between; /* 자식 앨리먼트 사이의 여백을 최대로 설정 */
 
-  & div.logo {
+  .logo {
     font-size: 1.125rem;
     font-weight: 800;
     letter-spacing: 2px;
   }
 
-  & div.right {
+  .right {
     display: flex;
     align-items: center;
   }
@@ -73,10 +73,12 @@ function Header() {
     <>
       <HeaderBlock>
         <Wrapper>
-          <div className="logo">NEST BLOG</div>
-          {isLoggedIn && data && (
+          <Link to="/" className="logo">
+            NEST BLOG
+          </Link>
+          {isLoggedIn && (
             <div className="right">
-              <UserInfo>{data.data.nickname}</UserInfo>
+              <UserInfo>{data?.data.nickname}</UserInfo>
               <Button onClick={onLogout}>로그아웃</Button>
             </div>
           )}
