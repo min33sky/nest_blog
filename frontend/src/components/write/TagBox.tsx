@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import oc from 'open-color';
 
 const TagBoxBlock = styled.div`
@@ -61,26 +61,68 @@ const TagListBlock = styled.div`
   margin-top: 0.5rem;
 `;
 
-const TagItem = React.memo(({ tag }: { tag: string }) => <Tag>#{tag}</Tag>);
+const TagItem = React.memo(
+  ({ tag, onRemove }: { tag: string; onRemove: (tagName: string) => void }) => (
+    <Tag onClick={() => onRemove(tag)}>#{tag}</Tag>
+  )
+);
 
-const TagList = React.memo(({ tags }: { tags: string[] }) => (
-  <TagListBlock>
-    {tags.map((tag) => (
-      <TagItem key={tag} tag={tag} />
-    ))}
-  </TagListBlock>
-));
+const TagList = React.memo(
+  ({ tags, onRemove }: { tags: string[]; onRemove: (tagName: string) => void }) => (
+    <TagListBlock>
+      {tags.map((tag) => (
+        <TagItem key={tag} tag={tag} onRemove={onRemove} />
+      ))}
+    </TagListBlock>
+  )
+);
 
+/**
+ * 태그 등록 컴포넌트
+ * @returns
+ */
 function TagBox() {
+  const [input, setInput] = useState('');
+  const [localTags, setLocalTags] = useState<string[]>([]);
+
+  const insertTag = useCallback(
+    (tag: string) => {
+      if (!tag) return;
+      if (localTags.includes(tag)) return;
+      setLocalTags([...localTags, tag]);
+    },
+    [localTags]
+  );
+
+  const onRemove = useCallback(
+    (tag: string) => {
+      setLocalTags(localTags.filter((item) => item !== tag));
+    },
+    [localTags]
+  );
+
+  const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+  }, []);
+
+  const onSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      insertTag(input.trim());
+      setInput('');
+    },
+    [input, insertTag]
+  );
+
   return (
     <TagBoxBlock>
       <h4>태그</h4>
-      <TagForm>
-        <input placeholder="태그를 입력하세요" />
+      <TagForm onSubmit={onSubmit}>
+        <input value={input} onChange={onChange} placeholder="태그를 입력하세요" />
         <button type="submit">추가</button>
       </TagForm>
-      <TagList tags={['태그1', '태그2', '태그3']} />
+      <TagList onRemove={onRemove} tags={localTags} />
     </TagBoxBlock>
   );
 }
-export default TagBox;
+export default React.memo(TagBox);

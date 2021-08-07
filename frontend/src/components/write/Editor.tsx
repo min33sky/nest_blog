@@ -25,7 +25,7 @@ const TitleInput = styled.input`
 const QuillWrapper = styled.div`
   /* 최소 크기 지정 및 padding 제거 */
   .ql-editor {
-    padding: 0;
+    padding: 10px;
     min-height: 320px;
     font-size: 1.125rem;
     line-height: 1.5;
@@ -37,7 +37,7 @@ const QuillWrapper = styled.div`
   }
 
   .ql-editor.ql-blank::before {
-    left: 0px;
+    left: 10px;
   }
 `;
 
