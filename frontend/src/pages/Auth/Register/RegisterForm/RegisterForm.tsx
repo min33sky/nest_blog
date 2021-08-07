@@ -49,7 +49,7 @@ function RegisterForm() {
       console.log('데 이 터: ', data.data.access_token);
       const token = data.data.access_token;
       dispatch(setToken(token));
-      localStorage.setItem('access_token', token);
+      sessionStorage.setItem('access_token', token);
       queryClient.invalidateQueries('userStatus');
     },
   });

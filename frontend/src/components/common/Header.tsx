@@ -51,6 +51,8 @@ const UserInfo = styled.div`
 
 function Header() {
   const token = useSelector((state: RootState) => state.auth.token);
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
 
@@ -64,6 +66,7 @@ function Header() {
     console.log('로 그 아 웃');
     dispatch(removeToken());
     queryClient.setQueriesData('userStatus', undefined); // ? 리패치 대신 직접 캐시된 값을 수정한다.
+    sessionStorage.removeItem('access_token');
   };
 
   return (
@@ -71,13 +74,13 @@ function Header() {
       <HeaderBlock>
         <Wrapper>
           <div className="logo">NEST BLOG</div>
-          {data && (
+          {isLoggedIn && data && (
             <div className="right">
               <UserInfo>{data.data.nickname}</UserInfo>
               <Button onClick={onLogout}>로그아웃</Button>
             </div>
           )}
-          {!data && (
+          {!isLoggedIn && (
             <div className="right">
               <Button to="/login">로그인</Button>
             </div>
