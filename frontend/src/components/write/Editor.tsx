@@ -9,7 +9,7 @@ import TagBox from '@components/write/TagBox';
 const EditorBlock = styled(Responsive)`
   /* 페이지 위 아래 여백 지정 */
   padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-bottom: 2rem;
 `;
 
 const TitleInput = styled.input`
@@ -23,6 +23,7 @@ const TitleInput = styled.input`
 `;
 
 const QuillWrapper = styled.div`
+  border-bottom: 10px red;
   /* 최소 크기 지정 및 padding 제거 */
   .ql-editor {
     padding: 10px;
@@ -85,7 +86,6 @@ function Editor() {
           placeholder="내용을 입력해주세요."
         />
       </QuillWrapper>
-      <TagBox />
     </EditorBlock>
   );
 }

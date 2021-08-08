@@ -4,8 +4,8 @@ import oc from 'open-color';
 
 const TagBoxBlock = styled.div`
   width: 100%;
-  border-top: 1px solid ${oc.gray[2]};
   padding-top: 2rem;
+  padding-left: 1rem;
 
   h4 {
     color: ${oc.gray[8]};

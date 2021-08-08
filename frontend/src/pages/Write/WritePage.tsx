@@ -1,11 +1,16 @@
+import Responsive from '@components/common/Responsive';
 import Editor from '@components/write/Editor';
+import TagBox from '@components/write/TagBox';
+import WriteActionButtons from '@components/write/WriteActionButtons';
 import React from 'react';
 
 function WritePage() {
   return (
-    <div>
+    <Responsive>
       <Editor />
-    </div>
+      <TagBox />
+      <WriteActionButtons onCancel={() => {}} onPublish={() => {}} />
+    </Responsive>
   );
 }
 
