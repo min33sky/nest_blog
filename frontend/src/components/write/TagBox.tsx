@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import React, { useCallback, useState } from 'react';
 import oc from 'open-color';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '@store/store';
+import { addTag, removeTag } from '@store/post/post.slice';
 
 const TagBoxBlock = styled.div`
   width: 100%;
@@ -82,23 +85,24 @@ const TagList = React.memo(
  * @returns
  */
 function TagBox() {
+  const dispatch = useDispatch<AppDispatch>();
+  const tags = useSelector((state: RootState) => state.post.tags);
   const [input, setInput] = useState('');
-  const [localTags, setLocalTags] = useState<string[]>([]);
 
   const insertTag = useCallback(
     (tag: string) => {
       if (!tag) return;
-      if (localTags.includes(tag)) return;
-      setLocalTags([...localTags, tag]);
+      if (tags.includes(tag)) return;
+      dispatch(addTag(input));
     },
-    [localTags]
+    [dispatch, input, tags]
   );
 
   const onRemove = useCallback(
     (tag: string) => {
-      setLocalTags(localTags.filter((item) => item !== tag));
+      dispatch(removeTag(tag));
     },
-    [localTags]
+    [dispatch]
   );
 
   const onChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,7 +125,7 @@ function TagBox() {
         <input value={input} onChange={onChange} placeholder="태그를 입력하세요" />
         <button type="submit">추가</button>
       </TagForm>
-      <TagList onRemove={onRemove} tags={localTags} />
+      <TagList onRemove={onRemove} tags={tags} />
     </TagBoxBlock>
   );
 }

@@ -1,6 +1,9 @@
 import Button from '@components/common/Button';
 import styled from '@emotion/styled';
-import React from 'react';
+import { RootState } from '@store/store';
+import React, { useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const WriteActionButtonsBlock = styled.div`
   margin-top: 1rem;
@@ -24,7 +27,21 @@ interface IProps {
   onPublish: () => void;
 }
 
-function WriteActionButtons({ onCancel, onPublish }: IProps) {
+function WriteActionButtons() {
+  const history = useHistory();
+  const { title, content, tags } = useSelector((state: RootState) => state.post);
+
+  const onPublish = useCallback(() => {
+    console.log('********** 게시물 전송 ***********');
+    console.log('title: ', title);
+    console.log('content: ', content);
+    console.log('tags : ', tags);
+  }, [title, content, tags]);
+
+  const onCancel = useCallback(() => {
+    history.goBack();
+  }, [history]);
+
   return (
     <WriteActionButtonsBlock>
       <StyledButton cyan onClick={onPublish}>

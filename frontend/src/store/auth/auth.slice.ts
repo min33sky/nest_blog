@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface AuthState {
-  token: string | undefined;
-  isLoggedIn: boolean;
+  token: string | undefined; // 인증 토큰
+  isLoggedIn: boolean; // 로그인 여부
 }
 
 const initialState: AuthState = {
@@ -19,7 +19,6 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
     },
     removeToken: (state) => {
-      // TODO: 토큰 삭제하기 (로그아웃)
       state.token = undefined;
       state.isLoggedIn = false;
     },

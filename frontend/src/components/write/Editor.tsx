@@ -1,10 +1,13 @@
 import Responsive from '@components/common/Responsive';
 import styled from '@emotion/styled';
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import oc from 'open-color';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import TagBox from '@components/write/TagBox';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@store/store';
+import { setContent, setTitle } from '@store/post/post.slice';
 
 const EditorBlock = styled(Responsive)`
   /* 페이지 위 아래 여백 지정 */
@@ -45,7 +48,25 @@ const QuillWrapper = styled.div`
 function Editor() {
   const QuillRef = useRef<ReactQuill>();
   const [contents, setContents] = useState('');
+  const title = useSelector((state: RootState) => state.post.title);
+  const content = useSelector((state: RootState) => state.post.content);
+  const dispatch = useDispatch();
 
+  const onChangeTitle = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      dispatch(setTitle(e.target.value));
+    },
+    [dispatch]
+  );
+
+  const onChangeContent = useCallback(
+    (text: string) => {
+      dispatch(setContent(text));
+    },
+    [dispatch]
+  );
+
+  //* Quill 모듈 설정
   const modules = useMemo(
     () => ({
       toolbar: {
@@ -71,7 +92,7 @@ function Editor() {
 
   return (
     <EditorBlock>
-      <TitleInput placeholder="제목을 입력하세요" />
+      <TitleInput value={title} onChange={onChangeTitle} placeholder="제목을 입력하세요" />
       <QuillWrapper>
         <ReactQuill
           ref={(element) => {
@@ -79,8 +100,8 @@ function Editor() {
               QuillRef.current = element;
             }
           }}
-          value={contents}
-          onChange={setContents}
+          value={content}
+          onChange={onChangeContent}
           modules={modules}
           theme="snow"
           placeholder="내용을 입력해주세요."
