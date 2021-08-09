@@ -73,9 +73,8 @@ const PostItem = ({ post }: { post: IPost }) => {
 };
 
 function PostList({ url }: { url: string }) {
-  const { status, data } = useQuery(['query', url], () => getPostList(url), {
-    // enabled: !!fetchUrl,
-  });
+  // ? url에 따라서 키가 바뀌기 때문에 리패치가 된다
+  const { status, data } = useQuery(['query', url], () => getPostList(url));
 
   if (status === 'loading') {
     return <PostListBlock>로딩중......</PostListBlock>;
@@ -84,8 +83,6 @@ function PostList({ url }: { url: string }) {
   if (status === 'error' || !data) {
     return <PostListBlock>데이터 없어요 혹은 에러</PostListBlock>;
   }
-
-  console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~', url);
 
   return (
     <PostListBlock>

@@ -2,7 +2,7 @@ import Button from '@components/common/Button';
 import Header from '@components/common/Header';
 import PostList from '@components/posts/PostList';
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import queryString from 'query-string';
 
 /**
@@ -12,13 +12,19 @@ import queryString from 'query-string';
  */
 function PostListPage() {
   const location = useLocation();
-  const parsed = queryString.parse(location.search);
-  const fetchUrl = queryString.stringify(parsed);
+  const params = useParams();
+
+  let parsed = queryString.parse(location.search);
+  parsed = {
+    ...parsed,
+    ...params,
+  };
+  const url = queryString.stringify(parsed);
 
   return (
     <>
       <Header />
-      <PostList url={fetchUrl} />
+      <PostList url={url} />
     </>
   );
 }
