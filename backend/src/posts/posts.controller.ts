@@ -10,7 +10,12 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt/jwt-auth.guard';
 import { CurrentUser } from 'src/common/decorators/user.decorator';
 import { CreatePostDto } from 'src/posts/dto/create-post.dto';
@@ -26,7 +31,10 @@ export class PostsController {
 
   @ApiOperation({ summary: '모든 게시물 조회' })
   @ApiOkResponse({ description: '게시물 목록' })
-  // @UseGuards(JwtAuthGuard)
+  @ApiQuery({
+    name: 'tag',
+    required: false,
+  })
   @Get()
   async getAllPosts(
     @Query('page') page: string,
