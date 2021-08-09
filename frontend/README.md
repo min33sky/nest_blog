@@ -56,3 +56,25 @@ const StyledLink = styled(
   // Style Code....
 `;
 ```
+
+### react-query에서 Link 컴포넌트를 사용할 때 리패치가 안되는 경우
+
+- 다른 주소로의 라우팅은 리패치가 잘 되지만 같은 컴포넌트로의 라우팅(예: 쿼리스트링만 바뀌는 경우)은 `리패치`가 되지 않는다. 그 이유는 react query의 key값이 동일하기 때문에 이미 캐시된 값을 사용하기 때문이다.
+- 해결은 `react-query`의 `key`값을 동적으로 바꾸면 된다. `key`값으로 배열을 사용할 수 있기 때문에 아래와 같이 수정하면 `리패치`가 잘 된다.
+
+```ts
+import queryString from 'query-string';
+
+// react-router-dom의 hooks
+const location = useLocation();
+const params = useParams();
+
+let parsed = queryString.parse(location.search);
+parsed = {
+  ...parsed, // query
+  ...params, // route parameter
+};
+const url = queryString.stringify(parsed);
+
+const { status, data } = useQuery(['query', url], () => getPostList(url));
+```

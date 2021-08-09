@@ -5,11 +5,12 @@ import Tags from '@components/common/Tags';
 import styled from '@emotion/styled';
 import { getPostList } from '@utils/api';
 import oc from 'open-color';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useQuery } from 'react-query';
-import { Link, useLocation } from 'react-router-dom';
-import queryString from 'query-string';
+import { Link } from 'react-router-dom';
 import { IPost } from '@typings/post';
+import { useSelector } from 'react-redux';
+import { RootState } from '@store/store';
 
 const PostListBlock = styled(Responsive)`
   margin-top: 3rem;
@@ -46,19 +47,6 @@ const PostItemBlock = styled.div`
   }
 `;
 
-// const Tags = styled.div`
-//   margin-top: 0.5rem;
-//   .tag {
-//     display: inline-block;
-//     color: ${oc.cyan[7]};
-//     text-decoration: none;
-//     margin-right: 0.5rem;
-//     &:hover {
-//       color: ${oc.cyan[6]};
-//     }
-//   }
-// `;
-
 const PostItem = ({ post }: { post: IPost }) => {
   return (
     <PostItemBlock>
@@ -75,6 +63,7 @@ const PostItem = ({ post }: { post: IPost }) => {
 function PostList({ url }: { url: string }) {
   // ? url에 따라서 키가 바뀌기 때문에 리패치가 된다
   const { status, data } = useQuery(['query', url], () => getPostList(url));
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
 
   if (status === 'loading') {
     return <PostListBlock>로딩중......</PostListBlock>;
@@ -87,9 +76,11 @@ function PostList({ url }: { url: string }) {
   return (
     <PostListBlock>
       <WritePostButtonWrapper>
-        <Button cyan to="/write">
-          새 글 작성하기 [로그인 시만 뜨게 바꾼다]
-        </Button>
+        {isLoggedIn && (
+          <Button cyan to="/write">
+            새 글 작성하기 [로그인 시만 뜨게 바꾼다]
+          </Button>
+        )}
       </WritePostButtonWrapper>
       <div>
         {data.data.posts.map((post) => (

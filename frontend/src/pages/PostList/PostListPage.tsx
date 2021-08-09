@@ -16,10 +16,10 @@ function PostListPage() {
 
   let parsed = queryString.parse(location.search);
   parsed = {
-    ...parsed,
-    ...params,
+    ...parsed, // query
+    ...params, // route parameter
   };
-  const url = queryString.stringify(parsed);
+  const url = queryString.stringify(parsed); // ? nickname=닉네임&tag=태그&page=1
 
   return (
     <>

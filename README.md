@@ -14,6 +14,8 @@
 ## Frontend Stack
 
 - React
+- Redux
+- React Query
 
 ---
 
