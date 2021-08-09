@@ -5,7 +5,10 @@ export interface LoginResponse {
   /**
    * jwt
    */
-  access_token: string;
+  success: boolean;
+  data: {
+    access_token: string;
+  };
 }
 
 /**

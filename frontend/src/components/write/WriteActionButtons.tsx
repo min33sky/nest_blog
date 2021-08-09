@@ -1,8 +1,7 @@
 import Button from '@components/common/Button';
 import styled from '@emotion/styled';
 import { RootState } from '@store/store';
-import { IPostResponse } from '@typings/post';
-import axios, { AxiosResponse } from 'axios';
+import { createPost } from '@utils/api';
 import React, { useCallback } from 'react';
 import { useMutation } from 'react-query';
 import { useSelector } from 'react-redux';
@@ -26,21 +25,6 @@ const StyledButton = styled(Button)`
 `;
 
 /**
- * 포스트 등록 함수
- * @param postData
- * @returns
- */
-export async function createPost(postData: { title: string; content: string; tags?: string[] }) {
-  const token = sessionStorage.getItem('access_token');
-  const { data } = await axios.post<IPostResponse>('/api/posts', postData, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return data;
-}
-
-/**
  * 포스트 등록 버튼 컴포넌트
  * @returns
  */
@@ -58,6 +42,8 @@ function WriteActionButtons() {
       });
 
       // TODO: 해당 게시물 화면으로 이동
+      // ? 임시로 메인 화면으로 라우팅
+      history.push('/');
     } catch (error) {
       console.log('게시물 등록 실해', error.response);
     }

@@ -34,7 +34,7 @@ function LoginPage() {
     console.log('유저 정보 로드 에러 ...');
   }
 
-  if (status === 'success') {
+  if (data && status === 'success') {
     console.log('로그인 데이터 [login page]: ', data);
     //! history.push('/')를 사용하면 render()에서 props를 변경하기 때문에 경고 발생
     return <Redirect to="/" />;

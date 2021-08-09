@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 export async function loginRequest(loginData: { email: string; password: string }) {
-  const { data } = await axios.post<AxiosResponse<LoginResponse>>('/api/users/login', loginData);
+  const { data } = await axios.post<LoginResponse>('/api/users/login', loginData);
   return data;
 }
 
@@ -26,10 +26,10 @@ function LoginForm() {
 
   // ? react-query를 사용해서 뮤테이트
   const mutation = useMutation(loginRequest, {
-    onSuccess: (data) => {
+    onSuccess: (response) => {
       console.log('로그인 성공');
-      console.log('데 이 터: ', data.data.access_token);
-      const token = data.data.access_token;
+      console.log('데 이 터: ', response.data.access_token);
+      const token = response.data.access_token;
       dispatch(setToken(token));
       sessionStorage.setItem('access_token', token);
       queryClient.invalidateQueries('userStatus');

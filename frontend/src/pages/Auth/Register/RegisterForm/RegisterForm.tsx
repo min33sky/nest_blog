@@ -24,7 +24,7 @@ export async function requestRegister(signupData: {
   password: string;
   nickname: string;
 }) {
-  const { data } = await axios.post<AxiosResponse<RegisterResponse>>('/api/users', signupData);
+  const { data } = await axios.post<RegisterResponse>('/api/users', signupData);
   return data;
 }
 
@@ -35,7 +35,7 @@ function RegisterForm() {
   const mutation = useMutation(requestRegister, {
     onSuccess: (data) => {
       console.log('회원 가입 성공');
-      console.log(data.data);
+      console.log(data);
     },
     onError: (data: any) => {
       console.log('회원 가입 실패');
@@ -44,10 +44,10 @@ function RegisterForm() {
   });
 
   const loginMutation = useMutation(loginRequest, {
-    onSuccess: (data) => {
+    onSuccess: (response) => {
       console.log('로그인 성공');
-      console.log('데 이 터: ', data.data.access_token);
-      const token = data.data.access_token;
+      console.log('데 이 터: ', response.data.access_token);
+      const token = response.data.access_token;
       dispatch(setToken(token));
       sessionStorage.setItem('access_token', token);
       queryClient.invalidateQueries('userStatus');
@@ -96,7 +96,7 @@ function RegisterForm() {
       try {
         console.log('회원가입 정보: ', email, nickname, password, passwordCheck);
         const response = await mutation.mutateAsync({ email, nickname, password });
-        console.log('레 스 폰 스 :', response.data);
+        console.log('레 스 폰 스 :', response);
 
         // ? 회원 가입과 동시에 로그인까지 처리
         loginMutation.mutate({ email, password });
