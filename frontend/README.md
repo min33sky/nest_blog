@@ -32,3 +32,27 @@ loadToken();
 render() {...}
 
 ```
+
+### Warning: Received `false` for a non-boolean attribute. How do I pass a boolean for a custom boolean attribute?
+
+- Styled-Component를 사용시 비정규 html 속성을 사용 시 뜨는 경고이다.
+- 아래 코드로 해결이 가능하긴 한데 더 찾아봐야 할듯
+
+```ts
+// react-router-dom의 Link 컴포넌트를 사용 시 경고 해결
+const StyledLink = styled(
+  ({
+    cyan,
+    fullWidth,
+    to,
+    ...rest
+  }: {
+    cyan?: boolean;
+    fullWidth?: boolean;
+    to: string;
+    rest?: LinkProps;
+  }) => <Link to={to} {...rest} />
+)`
+  // Style Code....
+`;
+```

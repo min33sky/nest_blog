@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import oc from 'open-color';
 import { css } from '@emotion/react';
-import { Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 
 const buttonStyle = css`
   border: none;
@@ -43,7 +43,20 @@ const StyledButton = styled.button<{ fullWidth?: boolean; cyan?: boolean }>`
     `}
 `;
 
-const StyledLink = styled(Link)<{ fullWidth?: boolean; cyan?: boolean }>`
+// const StyledLink = styled(Link)<{ fullWidth?: boolean; cyan?: boolean }>`
+const StyledLink = styled(
+  ({
+    cyan,
+    fullWidth,
+    to,
+    ...rest
+  }: {
+    cyan?: boolean;
+    fullWidth?: boolean;
+    to: string;
+    rest?: LinkProps;
+  }) => <Link to={to} {...rest} />
+)`
   ${buttonStyle}
 
   ${(props) =>
