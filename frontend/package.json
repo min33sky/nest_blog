@@ -21,6 +21,7 @@
     "cross-env": "^7.0.3",
     "fork-ts-checker-webpack-plugin": "^6.2.12",
     "open-color": "^1.8.0",
+    "query-string": "^7.0.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-query": "^3.19.2",

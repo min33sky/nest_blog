@@ -1,4 +1,4 @@
-import { IPostResponse } from '@typings/post';
+import { IPostListResponse, IPostResponse } from '@typings/post';
 import { LoginResponse, RegisterResponse } from '@typings/user';
 import axios from 'axios';
 
@@ -48,5 +48,15 @@ export async function createPost(postData: { title: string; content: string; tag
  */
 export async function getPost(postId: string) {
   const { data } = await axios.get<IPostResponse>(`/api/posts/${postId}`);
+  return data;
+}
+
+/**
+ * 포스트 리스트 불러오기
+ * @param url
+ * @returns
+ */
+export async function getPostList(url?: string) {
+  const { data } = await axios.get<IPostListResponse>(`/api/posts?${url}`);
   return data;
 }
