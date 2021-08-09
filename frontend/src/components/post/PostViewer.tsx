@@ -1,4 +1,6 @@
 import Responsive from '@components/common/Responsive';
+import SubInfo from '@components/common/SubInfo';
+import Tags from '@components/common/Tags';
 import styled from '@emotion/styled';
 import { getPost } from '@utils/api';
 import oc from 'open-color';
@@ -18,32 +20,6 @@ const PostHead = styled.div`
     font-size: 3rem;
     line-height: 1.5;
     margin: 0;
-  }
-`;
-
-const SubInfo = styled.div`
-  margin-top: 1rem;
-  color: ${oc.gray[6]};
-
-  /* span 사이에 가운뎃점 문자 보여주기 */
-  span + span::before {
-    color: ${oc.gray[5]};
-    padding-left: 0.25rem;
-    padding-right: 0.25rem;
-    content: '\\B7'; /* 가운뎃점 문자 */
-  }
-`;
-
-const Tags = styled.div`
-  margin-top: 0.5rem;
-  .tag {
-    display: inline-block;
-    color: ${oc.cyan[7]};
-    text-decoration: none;
-    margin-right: 0.5rem;
-    &:hover {
-      color: ${oc.cyan[6]};
-    }
   }
 `;
 
@@ -79,19 +55,12 @@ function PostViewer() {
     <PostViewerBlock>
       <PostHead>
         <h1>{postData.title}</h1>
-        <SubInfo>
-          <span>
-            <b>{postData.user.nickname}</b>
-          </span>
-          <span>{new Date(postData.updatedAt).toLocaleDateString()}</span>
-        </SubInfo>
-        <Tags>
-          {postData.tags.map((tag) => (
-            <div className="tag" key={tag}>
-              #{tag}
-            </div>
-          ))}
-        </Tags>
+        <SubInfo
+          nickname={postData.user.nickname}
+          publishedDate={postData.updatedAt}
+          hasMarginTop
+        />
+        <Tags tags={postData.tags} />
       </PostHead>
       <PostContent dangerouslySetInnerHTML={{ __html: postData.content }} />
     </PostViewerBlock>

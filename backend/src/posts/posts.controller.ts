@@ -26,7 +26,7 @@ export class PostsController {
 
   @ApiOperation({ summary: '모든 게시물 조회' })
   @ApiOkResponse({ description: '게시물 목록' })
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @Get()
   async getAllPosts(
     @Query('page') page: string,
@@ -36,9 +36,10 @@ export class PostsController {
     /**
      * ? querystring이 없을 경우에 pipe를 쓰면 에러가 난다
      * ? 한글 처리를 위해 decodeURI()를 사용하자
+     * ! query가 없을 시에 undefined가 문자열타입 undefined가 되니 조심하자
      */
-    const decodedTag = decodeURI(tag);
-    const decodedNickname = decodeURI(nickname);
+    const decodedTag = tag ? decodeURI(tag) : undefined;
+    const decodedNickname = nickname ? decodeURI(nickname) : undefined;
     return await this.postService.getAllPost(page, decodedNickname, decodedTag);
   }
 

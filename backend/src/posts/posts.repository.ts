@@ -14,12 +14,18 @@ export class PostsRepository {
   async getAllPost(page: string, nickname: string, tag: string) {
     const pageNum: number = parseInt(page || '1', 10);
 
+    console.log('******************', page, nickname, tag);
+
     const query = {
       ...(nickname ? { 'user.nickname': nickname } : {}),
       ...(tag ? { tags: tag } : {}),
     };
 
-    console.log('query: ', query);
+    console.log(
+      '시ㅣㅣㅣㅣㅣㅣ발: ',
+      nickname ? { 'user.nickname': nickname } : {},
+    );
+    console.log('~~query: ', query);
 
     //? 최신 게시물부터 보여주기
     const posts = await this.postModel
