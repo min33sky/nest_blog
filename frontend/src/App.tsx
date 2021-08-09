@@ -3,7 +3,7 @@ import RegisterPage from '@pages/Auth/Register/RegisterPage/RegisterPage';
 import PostPage from '@pages/Post/PostPage';
 import PostListPage from '@pages/PostList/PostListPage';
 import WritePage from '@pages/Write/WritePage';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 export default function App() {

@@ -55,6 +55,7 @@
     "react/require-default-props": "off", // Since we do not use prop-types
     "react/jsx-props-no-spreading": "off",
     "camelcase": "off",
+    "no-underscore-dangle": "off",
     "no-param-reassign": [
       "error",
       {

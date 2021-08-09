@@ -43,11 +43,11 @@ function WriteActionButtons() {
 
       // TODO: 해당 게시물 화면으로 이동
       // ? 임시로 메인 화면으로 라우팅
-      history.push('/');
+      history.push(`/@${response.data.user.nickname}/${response.data._id}`);
     } catch (error) {
       console.log('게시물 등록 실해', error.response);
     }
-  }, [title, content, tags, mutation]);
+  }, [title, content, tags, mutation, history]);
 
   const onCancel = useCallback(() => {
     history.goBack();

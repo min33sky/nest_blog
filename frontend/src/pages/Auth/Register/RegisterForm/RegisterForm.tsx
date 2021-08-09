@@ -5,28 +5,12 @@ import {
   ButtonWithMarginTop,
   AuthFormFooter,
 } from '@pages/Auth/Layouts/AuthForm.styles';
-import { loginRequest } from '@pages/Auth/Login/LoginForm/LoginForm';
 import { setToken } from '@store/auth/auth.slice';
-import axios, { AxiosResponse } from 'axios';
+import { loginRequest, requestRegister } from '@utils/api';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-export interface RegisterResponse {
-  id: string;
-  email: string;
-  nickname: string;
-}
-
-export async function requestRegister(signupData: {
-  email: string;
-  password: string;
-  nickname: string;
-}) {
-  const { data } = await axios.post<RegisterResponse>('/api/users', signupData);
-  return data;
-}
 
 function RegisterForm() {
   const queryClient = useQueryClient();
@@ -79,7 +63,6 @@ function RegisterForm() {
    * 비밀번호 & 비밀번호 확인 일치 여부
    */
   const checkPassword = useCallback(() => {
-    console.log('password, passwordCheck:', password, passwordCheck);
     setMismatchError(password !== passwordCheck);
   }, [password, passwordCheck]);
 

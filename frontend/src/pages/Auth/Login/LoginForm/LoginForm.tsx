@@ -7,16 +7,12 @@ import {
 } from '@pages/Auth/Layouts/AuthForm.styles';
 import { setToken } from '@store/auth/auth.slice';
 import { LoginResponse } from '@typings/user';
+import { loginRequest } from '@utils/api';
 import axios, { AxiosResponse } from 'axios';
 import React, { useCallback, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-
-export async function loginRequest(loginData: { email: string; password: string }) {
-  const { data } = await axios.post<LoginResponse>('/api/users/login', loginData);
-  return data;
-}
 
 function LoginForm() {
   const { value: email, handler: onChangeEmail } = useInput('');

@@ -12,6 +12,15 @@ export interface LoginResponse {
 }
 
 /**
+ * 회원가입 성공 응답
+ */
+export interface RegisterResponse {
+  id: string;
+  email: string;
+  nickname: string;
+}
+
+/**
  * 로그인 유저 정보
  */
 export interface IUserStatus {

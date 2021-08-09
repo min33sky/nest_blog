@@ -1,7 +1,14 @@
+import Header from '@components/common/Header';
+import PostViewer from '@components/post/PostViewer';
 import React from 'react';
 
 function PostPage() {
-  return <div style={{ color: 'blue' }}>포스트 읽기</div>;
+  return (
+    <>
+      <Header />
+      <PostViewer />
+    </>
+  );
 }
 
 export default PostPage;
