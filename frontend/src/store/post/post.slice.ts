@@ -38,9 +38,14 @@ export const postSlice = createSlice({
         state.tags.splice(index, 1);
       }
     },
+    clearEditor: (state) => {
+      state.title = '';
+      state.content = '';
+      state.tags = [];
+    },
   },
 });
 
-export const { setTitle, setContent, addTag, removeTag } = postSlice.actions;
+export const { setTitle, setContent, addTag, removeTag, clearEditor } = postSlice.actions;
 
 export default postSlice.reducer;

@@ -1,10 +1,11 @@
 import Button from '@components/common/Button';
 import styled from '@emotion/styled';
+import { clearEditor } from '@store/post/post.slice';
 import { RootState } from '@store/store';
 import { createPost } from '@utils/api';
 import React, { useCallback } from 'react';
 import { useMutation } from 'react-query';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 const WriteActionButtonsBlock = styled.div`
@@ -30,6 +31,7 @@ const StyledButton = styled(Button)`
  */
 function WriteActionButtons() {
   const history = useHistory();
+  const dispatch = useDispatch();
   const mutation = useMutation(createPost);
   const { title, content, tags } = useSelector((state: RootState) => state.post);
 
@@ -41,13 +43,14 @@ function WriteActionButtons() {
         tags,
       });
 
-      // TODO: 해당 게시물 화면으로 이동
-      // ? 임시로 메인 화면으로 라우팅
+      dispatch(clearEditor());
+
+      //* 임시로 메인 화면으로 라우팅
       history.push(`/@${response.data.user.nickname}/${response.data._id}`);
     } catch (error) {
       console.log('게시물 등록 실해', error.response);
     }
-  }, [title, content, tags, mutation, history]);
+  }, [title, content, tags, mutation, history, dispatch]);
 
   const onCancel = useCallback(() => {
     history.goBack();

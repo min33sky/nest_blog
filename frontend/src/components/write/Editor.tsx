@@ -4,7 +4,6 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import oc from 'open-color';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import TagBox from '@components/write/TagBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@store/store';
 import { setContent, setTitle } from '@store/post/post.slice';
@@ -47,7 +46,6 @@ const QuillWrapper = styled.div`
 
 function Editor() {
   const QuillRef = useRef<ReactQuill>();
-  const [contents, setContents] = useState('');
   const title = useSelector((state: RootState) => state.post.title);
   const content = useSelector((state: RootState) => state.post.content);
   const dispatch = useDispatch();
