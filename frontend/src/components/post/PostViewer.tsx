@@ -39,7 +39,7 @@ interface IPostParams {
  */
 function PostViewer() {
   const { postId } = useParams<IPostParams>();
-  const { status, data } = useQuery('getPost', () => getPost(postId));
+  const { status, data } = useQuery(['getPost', postId], () => getPost(postId));
 
   if (status === 'loading') {
     return <div>게시물 로딩 중....</div>;
