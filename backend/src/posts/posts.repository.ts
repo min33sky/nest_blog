@@ -39,7 +39,7 @@ export class PostsRepository {
       .lean() //? JSON 형태로 조회하기
       .exec();
 
-    //? 게시물의 총 개수
+    //? 조건에 해당하는 게시물의 총 개수
     const totalPostCount = await this.postModel.countDocuments(query).exec();
 
     //? 게시물 내용이 길 경우 간략하게 줄여서 보내기
@@ -51,6 +51,7 @@ export class PostsRepository {
     return {
       posts: modified,
       totalPostCount,
+      pageNum,
     };
   }
 

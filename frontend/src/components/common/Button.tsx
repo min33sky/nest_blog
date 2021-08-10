@@ -18,6 +18,12 @@ const buttonStyle = css`
   &:hover {
     background-color: ${oc.gray[6]};
   }
+
+  &:disabled {
+    background-color: ${oc.gray[3]};
+    color: ${oc.gray[5]};
+    cursor: not-allowed;
+  }
 `;
 
 // const StyledButton = styled.button<{ fullWidth?: boolean; cyan?: boolean }>`
@@ -83,6 +89,7 @@ interface IButton {
   to?: string;
   onClick?: () => void;
   fullWidth?: boolean;
+  disabled?: boolean;
   children: React.ReactNode;
 }
 

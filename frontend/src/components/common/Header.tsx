@@ -60,10 +60,7 @@ function Header() {
     enabled: !!token, // ? 토큰이 없으면 No Fetch~
   });
 
-  console.log('--헤더 데이터: ', data?.data);
-
   const onLogout = () => {
-    console.log('로 그 아 웃');
     dispatch(removeToken());
     queryClient.setQueriesData('userStatus', undefined); // ? 리패치 대신 직접 캐시된 값을 수정한다.
     sessionStorage.removeItem('access_token');

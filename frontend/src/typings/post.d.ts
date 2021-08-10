@@ -1,3 +1,6 @@
+/**
+ * 게시물 타입
+ */
 export interface IPost {
   _id: string;
   title: string;
@@ -26,7 +29,17 @@ export interface IPostResponse {
 export interface IPostListResponse {
   success: boolean;
   data: {
+    /**
+     * 게시물 목록
+     */
     posts: IPost[];
+    /**
+     * 게시물의 총 개수
+     */
     totalPostCount: number;
+    /**
+     * 현재 페이지 번호
+     */
+    pageNum: number;
   };
 }

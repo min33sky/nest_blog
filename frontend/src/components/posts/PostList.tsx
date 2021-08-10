@@ -78,7 +78,7 @@ function PostList({ url }: { url: string }) {
       <WritePostButtonWrapper>
         {isLoggedIn && (
           <Button cyan to="/write">
-            새 글 작성하기 [로그인 시만 뜨게 바꾼다]
+            새 글 작성하기
           </Button>
         )}
       </WritePostButtonWrapper>
