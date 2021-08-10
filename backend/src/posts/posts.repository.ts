@@ -89,10 +89,19 @@ export class PostsRepository {
    * @param body
    * @returns
    */
-  async updatePostById(id: string, body: any): Promise<Post> {
+  async updatePostById(
+    id: string,
+    createPostDto: CreatePostDto,
+  ): Promise<Post> {
+    // ? HTML Filtering
+    const updateData = { ...createPostDto };
+    if (updateData.content) {
+      updateData.content = createAndUpdateHtml(updateData.content);
+    }
+
     //? {new: true}일 경우 업데이트 된 데이터를 반환. false일 경우 업데이트 전 데이터 반환
     return await this.postModel
-      .findByIdAndUpdate(id, body, { new: true })
+      .findByIdAndUpdate(id, updateData, { new: true })
       .exec();
   }
 }

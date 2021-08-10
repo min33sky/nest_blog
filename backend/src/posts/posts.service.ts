@@ -32,8 +32,8 @@ export class PostsService {
     return result;
   }
 
-  async updatePost(id: string, body: UpdatePostDto): Promise<Post> {
-    const result = await this.postsRepositoy.updatePostById(id, body);
+  async updatePost(id: string, updatePostDto: UpdatePostDto): Promise<Post> {
+    const result = await this.postsRepositoy.updatePostById(id, updatePostDto);
     if (!result) throw new NotFoundException('해당하는 게시물이 없습니다.');
     return result;
   }

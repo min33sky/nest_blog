@@ -86,7 +86,7 @@ export class PostsController {
 
   @ApiOperation({ summary: '특정 게시물 업데이트' })
   @UseGuards(JwtAuthGuard)
-  @Patch(':id') //? 한꺼번에 교체하는 방식이라 Put을 사용하였다.
+  @Patch(':id')
   async updatePost(
     @Param('id') id: string,
     @Body() updatePostDto: UpdatePostDto,
