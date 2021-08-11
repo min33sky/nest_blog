@@ -42,6 +42,25 @@ export async function createPost(postData: { title: string; content: string; tag
 }
 
 /**
+ * 포스트 수정 함수
+ * @param postData
+ * @param postId
+ * @returns
+ */
+export async function updatePost(
+  postData: { title?: string; content?: string; tags?: string[] },
+  postId?: string
+) {
+  const token = sessionStorage.getItem('access_token');
+  const { data } = await axios.patch<IPostResponse>(`/api/posts/${postId}`, postData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+}
+
+/**
  * 포스트 불러오기
  * @param postId 게시물 아이디
  * @returns

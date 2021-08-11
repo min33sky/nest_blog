@@ -2,7 +2,7 @@ import Button from '@components/common/Button';
 import styled from '@emotion/styled';
 import { clearEditor } from '@store/post/post.slice';
 import { RootState } from '@store/store';
-import { createPost } from '@utils/api';
+import { createPost, updatePost } from '@utils/api';
 import React, { useCallback } from 'react';
 import { useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,23 +25,32 @@ const StyledButton = styled(Button)`
   }
 `;
 
+interface IWriteActionButtons {
+  postId?: string;
+}
+
 /**
  * 포스트 등록 버튼 컴포넌트
  * @returns
  */
-function WriteActionButtons() {
+function WriteActionButtons({ postId }: IWriteActionButtons) {
   const history = useHistory();
   const dispatch = useDispatch();
-  const mutation = useMutation(createPost);
   const { title, content, tags } = useSelector((state: RootState) => state.post);
+  const createMutation = useMutation(createPost);
+  const UpdateMutation = useMutation(() => updatePost({ title, content, tags }, postId));
+
+  console.log('포스트 아이디~~~~: ', postId);
 
   const onPublish = useCallback(async () => {
     try {
-      const response = await mutation.mutateAsync({
+      const response = await createMutation.mutateAsync({
         title,
         content,
         tags,
       });
+
+      console.log('게시글 등록~~~~~~~~');
 
       dispatch(clearEditor());
 
@@ -50,7 +59,22 @@ function WriteActionButtons() {
     } catch (error) {
       console.log('게시물 등록 실해', error.response);
     }
-  }, [title, content, tags, mutation, history, dispatch]);
+  }, [title, content, tags, createMutation, history, dispatch]);
+
+  const onUpdate = useCallback(async () => {
+    try {
+      const response = await UpdateMutation.mutateAsync();
+
+      dispatch(clearEditor());
+
+      console.log('게시글 수정~~~~: ', response);
+
+      //* 임시로 메인 화면으로 라우팅
+      history.push(`/@${response.data.user.nickname}/${response.data._id}`);
+    } catch (error) {
+      console.log('게시물 등록 실해', error.response);
+    }
+  }, [UpdateMutation, history, dispatch]);
 
   const onCancel = useCallback(() => {
     history.goBack();
@@ -58,9 +82,17 @@ function WriteActionButtons() {
 
   return (
     <WriteActionButtonsBlock>
-      <StyledButton cyan onClick={onPublish}>
-        포스트 등록
-      </StyledButton>
+      {postId && (
+        <StyledButton cyan onClick={onUpdate}>
+          포스트 수정
+        </StyledButton>
+      )}
+      {!postId && (
+        <StyledButton cyan onClick={onPublish}>
+          포스트 등록
+        </StyledButton>
+      )}
+
       <StyledButton onClick={onCancel}>취소</StyledButton>
     </WriteActionButtonsBlock>
   );

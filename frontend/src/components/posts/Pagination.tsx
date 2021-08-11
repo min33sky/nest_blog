@@ -32,12 +32,9 @@ interface IPagination {
 function Pagination({ url, parsed }: IPagination) {
   const { status, data } = useQuery(['query', url], () => getPostList(url));
 
-  if (status === 'loading') {
-    return <p>로딩중...</p>;
-  }
-
   if (status === 'error' || !data) {
-    return <p>에러</p>;
+    console.log('나중에 없앨꺼야');
+    return <p>페이지네이션 에러</p>;
   }
 
   const {

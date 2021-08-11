@@ -1,12 +1,13 @@
 import Responsive from '@components/common/Responsive';
 import SubInfo from '@components/common/SubInfo';
 import Tags from '@components/common/Tags';
+import PostActionButtons from '@components/post/PostActionButtons';
 import styled from '@emotion/styled';
 import { getPost } from '@utils/api';
 import oc from 'open-color';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 4rem;
@@ -39,7 +40,21 @@ interface IPostParams {
  */
 function PostViewer() {
   const { postId } = useParams<IPostParams>();
+  const history = useHistory();
   const { status, data } = useQuery(['getPost', postId], () => getPost(postId));
+
+  /**
+   * TODO: 로그인 시만 수정 삭제 버튼 보여주기
+   */
+
+  const onUpdate = useCallback(() => {
+    console.log('게시글 번호', data?.data._id);
+    history.push(`/write/${data?.data._id}`);
+  }, [data?.data._id, history]);
+
+  const onRemove = useCallback(() => {
+    console.log('게시글 삭제');
+  }, []);
 
   if (status === 'loading') {
     return <div>게시물 로딩 중....</div>;
@@ -62,6 +77,7 @@ function PostViewer() {
         />
         <Tags tags={postData.tags} />
       </PostHead>
+      <PostActionButtons onUpdate={onUpdate} onRemove={onRemove} />
       <PostContent dangerouslySetInnerHTML={{ __html: postData.content }} />
     </PostViewerBlock>
   );

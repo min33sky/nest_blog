@@ -13,7 +13,7 @@ export default function App() {
         <Route component={PostListPage} exact path={['/@:nickname', '/']} />
         <Route component={LoginPage} path="/login" />
         <Route component={RegisterPage} path="/register" />
-        <Route component={WritePage} path="/write" />
+        <Route component={WritePage} path={['/write/:postId', '/write']} />
         <Route component={PostPage} path="/@:nickname/:postId" />
       </Switch>
     </>
