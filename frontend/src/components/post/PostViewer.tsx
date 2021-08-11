@@ -8,6 +8,7 @@ import { RootState } from '@store/store';
 import { getPost, removePost } from '@utils/api';
 import oc from 'open-color';
 import React, { useCallback } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useMutation, useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -80,6 +81,9 @@ function PostViewer() {
 
   return (
     <PostViewerBlock>
+      <Helmet>
+        <title>{postData.title} - NEST BLOG</title>
+      </Helmet>
       <PostHead>
         <h1>{postData.title}</h1>
         <SubInfo

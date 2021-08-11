@@ -7,6 +7,7 @@ import { loadPost } from '@store/post/post.slice';
 import { getPost } from '@utils/api';
 import { deduplicateAndSortIssues } from 'fork-ts-checker-webpack-plugin/lib/issue';
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useQuery } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -43,6 +44,9 @@ function WritePage() {
 
   return (
     <Responsive>
+      <Helmet>
+        <title>글 작성하기 - NEST BLOG</title>
+      </Helmet>
       <Editor />
       <TagBox />
       <WriteActionButtons postId={postId} />

@@ -4,11 +4,15 @@ import PostPage from '@pages/Post/PostPage';
 import PostListPage from '@pages/PostList/PostListPage';
 import WritePage from '@pages/Write/WritePage';
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Route, Switch } from 'react-router-dom';
 
 export default function App() {
   return (
     <>
+      <Helmet>
+        <title>NEST BLOG</title>
+      </Helmet>
       <Switch>
         <Route component={PostListPage} exact path={['/@:nickname', '/']} />
         <Route component={LoginPage} path="/login" />
