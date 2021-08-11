@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import oc from 'open-color';
+import AskRemoveModal from '@components/post/AskRemoveModal';
 
 const PostActionButtonsBlock = styled.div`
   display: flex;
@@ -37,11 +38,30 @@ interface IPostActionButtons {
  * @returns
  */
 function PostActionButtons({ onUpdate, onRemove }: IPostActionButtons) {
+  const [modal, setModal] = useState(false);
+
+  const onRemoveClick = useCallback(() => {
+    setModal(true);
+  }, []);
+
+  const onCancel = useCallback(() => {
+    setModal(false);
+  }, []);
+
+  const onConfirm = useCallback(() => {
+    setModal(false);
+    onRemove();
+    console.log('게시글 삭 제 완 료');
+  }, [onRemove]);
+
   return (
-    <PostActionButtonsBlock>
-      <ActionButton onClick={onUpdate}>수정</ActionButton>
-      <ActionButton onClick={onRemove}>삭제</ActionButton>
-    </PostActionButtonsBlock>
+    <>
+      <PostActionButtonsBlock>
+        <ActionButton onClick={onUpdate}>수정</ActionButton>
+        <ActionButton onClick={onRemoveClick}>삭제</ActionButton>
+      </PostActionButtonsBlock>
+      <AskRemoveModal visible={modal} onConfirm={onConfirm} onCancel={onCancel} />
+    </>
   );
 }
 

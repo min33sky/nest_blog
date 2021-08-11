@@ -12,8 +12,8 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 /**
- * 포스트 작성 페이지
- * /write
+ * * 포스트 작성 및 수정 페이지
+ * * [/write:postId, /write]
  * @returns
  */
 function WritePage() {

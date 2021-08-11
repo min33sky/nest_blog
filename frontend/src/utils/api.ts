@@ -79,3 +79,18 @@ export async function getPostList(url?: string) {
   const { data } = await axios.get<IPostListResponse>(`/api/posts?${url}`);
   return data;
 }
+
+/**
+ * 게시글 삭제
+ * @param postId
+ * @returns
+ */
+export async function removePost(postId: string) {
+  const token = sessionStorage.getItem('access_token');
+  const { data } = await axios.delete(`/api/posts/${postId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return data;
+}

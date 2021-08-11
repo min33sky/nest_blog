@@ -3,10 +3,13 @@ import SubInfo from '@components/common/SubInfo';
 import Tags from '@components/common/Tags';
 import PostActionButtons from '@components/post/PostActionButtons';
 import styled from '@emotion/styled';
-import { getPost } from '@utils/api';
+import { getUserStatus } from '@pages/Auth/Login/LoginPage/LoginPage';
+import { RootState } from '@store/store';
+import { getPost, removePost } from '@utils/api';
 import oc from 'open-color';
 import React, { useCallback } from 'react';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
+import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 const PostViewerBlock = styled(Responsive)`
@@ -40,21 +43,29 @@ interface IPostParams {
  */
 function PostViewer() {
   const { postId } = useParams<IPostParams>();
+  const token = useSelector((state: RootState) => state.auth.token);
   const history = useHistory();
-  const { status, data } = useQuery(['getPost', postId], () => getPost(postId));
+  const { data: userData } = useQuery('userStatus', () => getUserStatus(token), {
+    enabled: !!token, // ? 토큰이 없으면 No Fetch~
+  });
 
-  /**
-   * TODO: 로그인 시만 수정 삭제 버튼 보여주기
-   */
+  const { status, data } = useQuery(['getPost', postId], () => getPost(postId));
+  const removeMutation = useMutation(removePost);
 
   const onUpdate = useCallback(() => {
-    console.log('게시글 번호', data?.data._id);
     history.push(`/write/${data?.data._id}`);
   }, [data?.data._id, history]);
 
-  const onRemove = useCallback(() => {
-    console.log('게시글 삭제');
-  }, []);
+  const onRemove = useCallback(async () => {
+    if (data) {
+      try {
+        await removeMutation.mutateAsync(data.data._id);
+        history.replace(`/`);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  }, [data, removeMutation, history]);
 
   if (status === 'loading') {
     return <div>게시물 로딩 중....</div>;
@@ -65,6 +76,7 @@ function PostViewer() {
   }
 
   const { data: postData } = data;
+  const ownPost = userData?.data._id === postData.user._id;
 
   return (
     <PostViewerBlock>
@@ -77,7 +89,9 @@ function PostViewer() {
         />
         <Tags tags={postData.tags} />
       </PostHead>
-      <PostActionButtons onUpdate={onUpdate} onRemove={onRemove} />
+
+      {ownPost && <PostActionButtons onUpdate={onUpdate} onRemove={onRemove} />}
+
       <PostContent dangerouslySetInnerHTML={{ __html: postData.content }} />
     </PostViewerBlock>
   );
