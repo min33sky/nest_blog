@@ -15,6 +15,8 @@ const sanitizeOption: sanitize.IOptions = {
     'blockquote',
     'a',
     'img',
+    'strong',
+    'em',
   ],
   allowedAttributes: {
     a: ['href', 'name', 'target'],

@@ -4,13 +4,14 @@ import Tags from '@components/common/Tags';
 import PostActionButtons from '@components/post/PostActionButtons';
 import styled from '@emotion/styled';
 import { getUserStatus } from '@pages/Auth/Login/LoginPage/LoginPage';
+import { clearEditor } from '@store/post/post.slice';
 import { RootState } from '@store/store';
 import { getPost, removePost } from '@utils/api';
 import oc from 'open-color';
 import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useMutation, useQuery } from 'react-query';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 const PostViewerBlock = styled(Responsive)`
@@ -43,6 +44,7 @@ interface IPostParams {
  * @returns
  */
 function PostViewer() {
+  const dispatch = useDispatch();
   const { postId } = useParams<IPostParams>();
   const token = useSelector((state: RootState) => state.auth.token);
   const history = useHistory();
@@ -61,6 +63,7 @@ function PostViewer() {
     if (data) {
       try {
         await removeMutation.mutateAsync(data.data._id);
+        dispatch(clearEditor);
         history.replace(`/`);
       } catch (err) {
         console.error(err);

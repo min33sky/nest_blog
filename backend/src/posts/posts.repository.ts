@@ -73,6 +73,8 @@ export class PostsRepository {
       },
     };
 
+    console.log('******** DB 저장 전 글 내용: ', newPost.content);
+
     return await this.postModel.create(newPost);
   }
 

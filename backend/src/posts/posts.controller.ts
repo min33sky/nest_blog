@@ -58,6 +58,7 @@ export class PostsController {
     @Body() createPostDto: CreatePostDto,
     @CurrentUser() user: User,
   ) {
+    console.log('글 내 용 ~~~~~~ :', createPostDto.content);
     return this.postService.createPost(createPostDto, user);
   }
 
