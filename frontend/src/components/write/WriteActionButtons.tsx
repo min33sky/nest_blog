@@ -7,6 +7,7 @@ import React, { useCallback } from 'react';
 import { useMutation } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const WriteActionButtonsBlock = styled.div`
   margin-top: 1rem;
@@ -40,8 +41,6 @@ function WriteActionButtons({ postId }: IWriteActionButtons) {
   const createMutation = useMutation(createPost);
   const UpdateMutation = useMutation(() => updatePost({ title, content, tags }, postId));
 
-  console.log('포스트 아이디~~~~: ', postId);
-
   const onPublish = useCallback(async () => {
     try {
       const response = await createMutation.mutateAsync({
@@ -50,14 +49,13 @@ function WriteActionButtons({ postId }: IWriteActionButtons) {
         tags,
       });
 
-      console.log('게시글 등록~~~~~~~~');
-
+      toast.success('게시물이 등록되었습니다. :)', { position: 'bottom-center' });
       dispatch(clearEditor());
 
       //* 임시로 메인 화면으로 라우팅
       history.push(`/@${response.data.user.nickname}/${response.data._id}`);
     } catch (error) {
-      console.log('게시물 등록 실해', error.response);
+      toast.error('게시물 등록 실패 :<', { position: 'bottom-center' });
     }
   }, [title, content, tags, createMutation, history, dispatch]);
 
@@ -67,12 +65,12 @@ function WriteActionButtons({ postId }: IWriteActionButtons) {
 
       dispatch(clearEditor());
 
-      console.log('게시글 수정~~~~: ', response);
+      toast.success('게시물이 수정되었습니다. :)', { position: 'bottom-center' });
 
       //* 임시로 메인 화면으로 라우팅
       history.push(`/@${response.data.user.nickname}/${response.data._id}`);
     } catch (error) {
-      console.log('게시물 등록 실해', error.response);
+      toast.error('게시물 등록 실패 :<', { position: 'bottom-center' });
     }
   }, [UpdateMutation, history, dispatch]);
 
