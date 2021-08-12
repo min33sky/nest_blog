@@ -1,32 +1,7 @@
-import styled from '@emotion/styled';
 import React, { useCallback, useState } from 'react';
-import oc from 'open-color';
 import AskRemoveModal from '@components/post/AskRemoveModal';
-
-const PostActionButtonsBlock = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 2rem;
-  margin-top: -1.5rem;
-`;
-
-const ActionButton = styled.button`
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  color: ${oc.gray[6]};
-  font-weight: bold;
-  border: none;
-  outline: none;
-  font-size: 0.875rem;
-  cursor: pointer;
-  &:hover {
-    background-color: ${oc.gray[1]};
-    color: ${oc.cyan[7]};
-  }
-  & + & {
-    margin-left: 0.25rem;
-  }
-`;
+import { toast } from 'react-toastify';
+import { PostActionButtonsBlock, ActionButton } from '@components/post/PostActionButtons.style';
 
 interface IPostActionButtons {
   onRemove: () => void;
@@ -51,7 +26,7 @@ function PostActionButtons({ onUpdate, onRemove }: IPostActionButtons) {
   const onConfirm = useCallback(() => {
     setModal(false);
     onRemove();
-    console.log('게시글 삭 제 완 료');
+    toast.success('삭제 완료 :)', { position: 'bottom-center' });
   }, [onRemove]);
 
   return (
@@ -60,6 +35,8 @@ function PostActionButtons({ onUpdate, onRemove }: IPostActionButtons) {
         <ActionButton onClick={onUpdate}>수정</ActionButton>
         <ActionButton onClick={onRemoveClick}>삭제</ActionButton>
       </PostActionButtonsBlock>
+
+      {/* 포스트 삭제 모달 */}
       <AskRemoveModal visible={modal} onConfirm={onConfirm} onCancel={onCancel} />
     </>
   );

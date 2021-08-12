@@ -1,38 +1,17 @@
-import Responsive from '@components/common/Responsive';
 import SubInfo from '@components/common/SubInfo';
 import Tags from '@components/common/Tags';
 import PostActionButtons from '@components/post/PostActionButtons';
-import styled from '@emotion/styled';
+import { PostViewerBlock, PostHead, PostContent } from '@components/post/PostViewer.style';
 import { getUserStatus } from '@pages/Auth/Login/LoginPage/LoginPage';
 import { clearEditor } from '@store/post/post.slice';
 import { RootState } from '@store/store';
 import { getPost, removePost } from '@utils/api';
-import oc from 'open-color';
 import React, { useCallback } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useMutation, useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-
-const PostViewerBlock = styled(Responsive)`
-  margin-top: 4rem;
-`;
-
-const PostHead = styled.div`
-  border-bottom: 1px solid ${oc.gray[2]};
-  padding-bottom: 3rem;
-  margin-bottom: 3rem;
-  h1 {
-    font-size: 3rem;
-    line-height: 1.5;
-    margin: 0;
-  }
-`;
-
-const PostContent = styled.div`
-  font-size: 1.3125rem;
-  color: ${oc.gray[8]};
-`;
+import { toast } from 'react-toastify';
 
 interface IPostParams {
   nickname: string;
@@ -66,10 +45,10 @@ function PostViewer() {
         dispatch(clearEditor);
         history.replace(`/`);
       } catch (err) {
-        console.error(err);
+        toast.error('게시물 삭제 실패 :<', { position: 'bottom-center' });
       }
     }
-  }, [data, removeMutation, history]);
+  }, [data, removeMutation, history, dispatch]);
 
   if (status === 'loading') {
     return <div>게시물 로딩 중....</div>;
@@ -87,6 +66,7 @@ function PostViewer() {
       <Helmet>
         <title>{postData.title} - NEST BLOG</title>
       </Helmet>
+
       <PostHead>
         <h1>{postData.title}</h1>
         <SubInfo
