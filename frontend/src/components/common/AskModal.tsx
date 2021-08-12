@@ -2,7 +2,7 @@ import Button from '@components/common/Button';
 import styled from '@emotion/styled';
 import React from 'react';
 
-const FullScreen = styled.div`
+const Background = styled.div`
   position: fixed;
   z-index: 30;
   top: 0;
@@ -39,9 +39,7 @@ const AskModalBlock = styled.div`
 
 const StyledButton = styled(Button)`
   height: 2rem;
-  & + & {
-    margin-left: 0.75rem;
-  }
+  margin-left: 0.75rem;
 `;
 
 export interface IAskModal {
@@ -66,7 +64,7 @@ function AskModal({
   if (!visible) return null;
 
   return (
-    <FullScreen>
+    <Background onClick={onCancel}>
       <AskModalBlock>
         <h2>{title}</h2>
         <p>{description}</p>
@@ -77,7 +75,7 @@ function AskModal({
           </StyledButton>
         </div>
       </AskModalBlock>
-    </FullScreen>
+    </Background>
   );
 }
 
