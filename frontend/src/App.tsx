@@ -6,6 +6,9 @@ import WritePage from '@pages/Write/WritePage';
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Route, Switch } from 'react-router-dom';
+// ? 리액트 토스트 관련 모듈
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function App() {
   return (
@@ -13,6 +16,7 @@ export default function App() {
       <Helmet>
         <title>NEST BLOG</title>
       </Helmet>
+
       <Switch>
         <Route component={PostListPage} exact path={['/@:nickname', '/']} />
         <Route component={LoginPage} path="/login" />
@@ -20,6 +24,8 @@ export default function App() {
         <Route component={WritePage} path={['/write/:postId', '/write']} />
         <Route component={PostPage} path="/@:nickname/:postId" />
       </Switch>
+
+      <ToastContainer />
     </>
   );
 }

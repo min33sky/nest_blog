@@ -35,6 +35,10 @@ export const postSlice = createSlice({
       }
     },
 
+    /**
+     * 에디터 상태 초기화
+     * @param state
+     */
     clearEditor: (state) => {
       state.title = '';
       state.content = '';

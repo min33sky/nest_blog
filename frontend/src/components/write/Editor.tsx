@@ -44,6 +44,10 @@ const QuillWrapper = styled.div`
   }
 `;
 
+/**
+ * 게시글 편집 에디터 화면
+ * @returns
+ */
 function Editor() {
   const QuillRef = useRef<ReactQuill>();
   const title = useSelector((state: RootState) => state.post.title);
