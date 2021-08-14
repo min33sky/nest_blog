@@ -7,10 +7,12 @@ import {
 } from '@pages/Auth/Layouts/AuthForm.styles';
 import { setToken } from '@store/auth/auth.slice';
 import { loginRequest, requestRegister } from '@utils/api';
+import { AxiosError } from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function RegisterForm() {
   const queryClient = useQueryClient();
@@ -84,7 +86,7 @@ function RegisterForm() {
         // ? 회원 가입과 동시에 로그인까지 처리
         loginMutation.mutate({ email, password });
       } catch (error) {
-        console.error('로그인 에ㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔㅔ러');
+        toast.error(`${error.response.data.message}`, { position: 'bottom-center' });
       }
     },
     [email, nickname, password, passwordCheck, mutation, loginMutation]

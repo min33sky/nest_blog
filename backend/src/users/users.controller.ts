@@ -5,7 +5,6 @@ import {
   Patch,
   Param,
   Delete,
-  Req,
   Get,
   UseGuards,
 } from '@nestjs/common';
@@ -33,7 +32,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get()
   getCurrentUser(@CurrentUser() user: User) {
-    console.log('req.user: ', user);
+    console.log('[req.user]: ', user);
     return user;
   }
 
