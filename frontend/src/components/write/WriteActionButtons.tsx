@@ -52,8 +52,7 @@ function WriteActionButtons({ postId }: IWriteActionButtons) {
       toast.success('게시물이 등록되었습니다. :)', { position: 'bottom-center' });
       dispatch(clearEditor());
 
-      //* 임시로 메인 화면으로 라우팅
-      history.push(`/@${response.data.user.nickname}/${response.data._id}`);
+      history.push(`/@${response.post.user.nickname}/${response.post._id}`);
     } catch (error) {
       toast.error('게시물 등록 실패 :<', { position: 'bottom-center' });
     }
@@ -68,7 +67,7 @@ function WriteActionButtons({ postId }: IWriteActionButtons) {
       toast.success('게시물이 수정되었습니다. :)', { position: 'bottom-center' });
 
       //* 임시로 메인 화면으로 라우팅
-      history.push(`/@${response.data.user.nickname}/${response.data._id}`);
+      history.push(`/@${response.post.user.nickname}/${response.post._id}`);
     } catch (error) {
       toast.error('게시물 등록 실패 :<', { position: 'bottom-center' });
     }

@@ -18,7 +18,9 @@ export class PostsService {
     if (!post) throw new NotFoundException('해당하는 게시물이 없습니다.');
 
     // ? 500에러를 잡아줘야 할듯
-    return post;
+    return {
+      post,
+    };
   }
 
   async createPost(createPostDto: CreatePostDto, user: User) {
@@ -32,7 +34,7 @@ export class PostsService {
     return result;
   }
 
-  async updatePost(id: string, updatePostDto: UpdatePostDto): Promise<Post> {
+  async updatePost(id: string, updatePostDto: UpdatePostDto) {
     const result = await this.postsRepositoy.updatePostById(id, updatePostDto);
     if (!result) throw new NotFoundException('해당하는 게시물이 없습니다.');
     return result;

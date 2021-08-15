@@ -83,7 +83,7 @@ function PostList({ url }: { url: string }) {
         )}
       </WritePostButtonWrapper>
       <div>
-        {data.data.posts.map((post) => (
+        {data.posts.map((post) => (
           <PostItem key={post._id} post={post} />
         ))}
       </div>

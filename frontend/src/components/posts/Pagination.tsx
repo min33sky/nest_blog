@@ -37,9 +37,7 @@ function Pagination({ url, parsed }: IPagination) {
     return <p>페이지네이션 에러</p>;
   }
 
-  const {
-    data: { totalPostCount, pageNum },
-  } = data;
+  const { totalPostCount, pageNum } = data;
   const { nickname, tag } = parsed;
   const lastPage = Math.ceil(totalPostCount / 5);
 

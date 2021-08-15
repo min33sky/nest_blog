@@ -6,9 +6,7 @@ export interface LoginResponse {
    * jwt
    */
   success: boolean;
-  data: {
-    access_token: string;
-  };
+  access_token: string;
 }
 
 /**
@@ -25,7 +23,7 @@ export interface RegisterResponse {
  */
 export interface IUserStatus {
   success: boolean;
-  data: {
+  user: {
     _id: string;
     email: string;
     nickname: string;

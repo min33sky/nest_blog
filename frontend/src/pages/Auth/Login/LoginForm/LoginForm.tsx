@@ -22,10 +22,10 @@ function LoginForm() {
 
   // ? react-query를 사용해서 뮤테이트
   const mutation = useMutation(loginRequest, {
-    onSuccess: (response) => {
+    onSuccess: (response: LoginResponse) => {
       console.log('로그인 성공');
-      console.log('데 이 터: ', response.data.access_token);
-      const token = response.data.access_token;
+      console.log('데 이 터: ', response.access_token);
+      const token = response.access_token;
       dispatch(setToken(token));
       sessionStorage.setItem('access_token', token);
       queryClient.invalidateQueries('userStatus');

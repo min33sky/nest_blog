@@ -75,7 +75,7 @@ function Header() {
           </Link>
           {isLoggedIn && (
             <div className="right">
-              <UserInfo>{data?.data.nickname}</UserInfo>
+              <UserInfo>{data?.user.nickname}</UserInfo>
               <Button onClick={onLogout}>로그아웃</Button>
             </div>
           )}

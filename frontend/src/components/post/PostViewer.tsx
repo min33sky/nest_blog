@@ -35,13 +35,13 @@ function PostViewer() {
   const removeMutation = useMutation(removePost);
 
   const onUpdate = useCallback(() => {
-    history.push(`/write/${data?.data._id}`);
-  }, [data?.data._id, history]);
+    history.push(`/write/${data?.post._id}`);
+  }, [data?.post._id, history]);
 
   const onRemove = useCallback(async () => {
     if (data) {
       try {
-        await removeMutation.mutateAsync(data.data._id);
+        await removeMutation.mutateAsync(data.post._id);
         dispatch(clearEditor);
         history.replace(`/`);
       } catch (err) {
@@ -58,8 +58,8 @@ function PostViewer() {
     return <div>게시물이 없어요</div>;
   }
 
-  const { data: postData } = data;
-  const ownPost = userData?.data._id === postData.user._id;
+  const { post: postData } = data;
+  const ownPost = userData?.user._id === postData.user._id;
 
   return (
     <PostViewerBlock>

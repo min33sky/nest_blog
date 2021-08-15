@@ -20,7 +20,7 @@ export interface IPost {
  */
 export interface IPostResponse {
   success: boolean;
-  data: IPost;
+  post: IPost;
 }
 
 /**
@@ -28,18 +28,17 @@ export interface IPostResponse {
  */
 export interface IPostListResponse {
   success: boolean;
-  data: {
-    /**
-     * 게시물 목록
-     */
-    posts: IPost[];
-    /**
-     * 게시물의 총 개수
-     */
-    totalPostCount: number;
-    /**
-     * 현재 페이지 번호
-     */
-    pageNum: number;
-  };
+
+  /**
+   * 게시물 목록
+   */
+  posts: IPost[];
+  /**
+   * 게시물의 총 개수
+   */
+  totalPostCount: number;
+  /**
+   * 현재 페이지 번호
+   */
+  pageNum: number;
 }

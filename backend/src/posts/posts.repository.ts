@@ -75,7 +75,10 @@ export class PostsRepository {
 
     console.log('******** DB 저장 전 글 내용: ', newPost.content);
 
-    return await this.postModel.create(newPost);
+    const result = await this.postModel.create(newPost);
+    return {
+      post: result,
+    };
   }
 
   async getPostById(id: string) {
@@ -92,10 +95,7 @@ export class PostsRepository {
    * @param body
    * @returns
    */
-  async updatePostById(
-    id: string,
-    createPostDto: CreatePostDto,
-  ): Promise<Post> {
+  async updatePostById(id: string, createPostDto: CreatePostDto) {
     // ? HTML Filtering
     const updateData = { ...createPostDto };
     if (updateData.content) {
@@ -103,8 +103,12 @@ export class PostsRepository {
     }
 
     //? {new: true}일 경우 업데이트 된 데이터를 반환. false일 경우 업데이트 전 데이터 반환
-    return await this.postModel
+    const updated = await this.postModel
       .findByIdAndUpdate(id, updateData, { new: true })
       .exec();
+
+    return {
+      post: updated,
+    };
   }
 }

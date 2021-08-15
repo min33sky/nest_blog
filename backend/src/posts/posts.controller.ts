@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Patch,
   Post,
@@ -27,6 +28,8 @@ import { User } from 'src/users/users.schema';
 @ApiTags('Posts')
 @Controller('api/posts')
 export class PostsController {
+  private readonly logger = new Logger(PostsController.name);
+
   constructor(private readonly postService: PostsService) {}
 
   @ApiOperation({ summary: '모든 게시물 조회' })
@@ -76,9 +79,12 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async removePost(@Param('id') id: string, @CurrentUser() user: User) {
-    const post = await this.postService.getPost(id);
-    //? objectId와 string을 비교할 땐 string형으로 변환 후 비교하자
-    if (post.user._id.toString() !== user.id) {
+    const result = await this.postService.getPost(id);
+    this.logger.debug(
+      `아이디 비교 시작....: ${result.post.user._id.toString() !== user.id}`,
+    );
+
+    if (result.post.user._id.toString() !== user.id) {
       throw new UnauthorizedException('게시물의 작성자가 아닙니다.');
     }
 
@@ -93,8 +99,12 @@ export class PostsController {
     @Body() updatePostDto: UpdatePostDto,
     @CurrentUser() user: User,
   ) {
-    const post = await this.postService.getPost(id);
-    if (post.user._id.toString() !== user.id) {
+    const result = await this.postService.getPost(id);
+    this.logger.debug(
+      `아이디 비교 시작....: ${result.post.user._id.toString() !== user.id}`,
+    );
+
+    if (result.post.user._id.toString() !== user.id) {
       throw new UnauthorizedException('게시물의 작성자가 아닙니다.');
     }
 

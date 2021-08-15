@@ -34,9 +34,9 @@ function WritePage() {
     if (data) {
       dispatch(
         loadPost({
-          title: data.data.title,
-          content: data.data.content,
-          tags: data.data.tags,
+          title: data.post.title,
+          content: data.post.content,
+          tags: data.post.tags,
         })
       );
     }

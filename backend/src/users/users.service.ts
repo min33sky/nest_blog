@@ -14,7 +14,6 @@ export class UsersService {
 
     //* 이미 존재하는 회원인지 확인
     const isExist = await this.userRepository.existsByEmail(email);
-
     if (isExist) throw new UnauthorizedException('이미 존재하는 이메일입니다.');
 
     const hashedPassword = await bcrypt.hash(password, 10);

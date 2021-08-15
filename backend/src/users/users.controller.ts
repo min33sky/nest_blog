@@ -37,7 +37,7 @@ export class UsersController {
   getCurrentUser(@CurrentUser() user: User) {
     this.logger.debug('로그인 한 유저의 정보 요청');
     console.log('[req.user]: ', user);
-    return user;
+    return { user };
   }
 
   @ApiOperation({ summary: '회원가입' })
@@ -56,7 +56,7 @@ export class UsersController {
     type: LoginResponseDto,
   })
   @Post('login')
-  login(
+  signIn(
     @Body() loginRequestDto: LoginRequestDto,
   ): Promise<{ access_token: string }> {
     this.logger.debug('로그인 요청');
