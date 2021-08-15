@@ -8,3 +8,21 @@
 ```ts
 import * as sanitizeHtml from 'sanitize-html';
 ```
+
+## 순환 참조 문제
+
+- 일반 JS Module에서도 서로 모듈을 `import` 할 경우 순환 참조 문제가 발생하는데 Nest Module에서도 서로 참조할 경우 문제가 발생한다.
+
+- 아래 코드와 같이 참조할 모듈의 imports 부분에 `forwardRef(() => ReferenceModule)`를 넣어주면 해결된다.
+
+```ts
+@Module({
+  imports: [
+    ...//? UserModule에서도 넣어줘야 한다. (forwardRef(() => AuthModule))
+    forwardRef(() => UsersModule),
+  ],
+  providers: [AuthService, JwtStrategy],
+  exports: [AuthService],
+})
+export class AuthModule {}
+```

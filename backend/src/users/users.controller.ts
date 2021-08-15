@@ -7,6 +7,7 @@ import {
   Delete,
   Get,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -23,6 +24,8 @@ import { User } from 'src/users/users.schema';
 @ApiTags('Users')
 @Controller('api/users')
 export class UsersController {
+  private readonly logger = new Logger(UsersController.name);
+
   constructor(
     private readonly usersService: UsersService,
     private readonly authService: AuthService,
@@ -32,6 +35,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get()
   getCurrentUser(@CurrentUser() user: User) {
+    this.logger.debug('로그인 한 유저의 정보 요청');
     console.log('[req.user]: ', user);
     return user;
   }
@@ -42,6 +46,7 @@ export class UsersController {
   async signUp(
     @Body() createUserDto: CreateUserDto,
   ): Promise<{ id: string; email: string; nickname: string }> {
+    this.logger.debug(`회원 가입 요청: ${JSON.stringify(createUserDto)} `);
     return await this.usersService.create(createUserDto);
   }
 
@@ -54,11 +59,13 @@ export class UsersController {
   login(
     @Body() loginRequestDto: LoginRequestDto,
   ): Promise<{ access_token: string }> {
+    this.logger.debug('로그인 요청');
     return this.authService.jwtLogin(loginRequestDto);
   }
 
-  //************************************************* 구현 예정 *********************************** */
+  //TODO: 업데이트 중입니다.
 
+  @ApiOperation({ summary: '회원 정보 업데이트' })
   @Patch(':id')
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
@@ -67,10 +74,5 @@ export class UsersController {
   @Delete(':id')
   removeUser(@Param('id') id: string) {
     return this.usersService.remove(+id);
-  }
-
-  @Post(':id')
-  logout() {
-    return '로그아웃';
   }
 }

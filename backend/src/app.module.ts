@@ -4,10 +4,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
-import * as mongoose from 'mongoose';
-import { LoggerMiddleware } from 'src/common/middlewares/logger.middleware';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+// import * as mongoose from 'mongoose';
+// import { LoggerMiddleware } from 'src/common/middlewares/logger.middleware';
 
 @Module({
   imports: [
@@ -28,10 +28,10 @@ import { AuthModule } from './auth/auth.module';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    console.log('env: ', process.env.NODE_ENV);
-
+    // ? Logging Interceptor로 대채하였으므로 미들웨어 사용 안함
+    // console.log('env: ', process.env.NODE_ENV);
     // 모든 라우터에 로그 미들웨어 적용
-    consumer.apply(LoggerMiddleware).forRoutes('*');
-    mongoose.set('debug', process.env.NODE_ENV === 'dev');
+    // consumer.apply(LoggerMiddleware).forRoutes('*');
+    // mongoose.set('debug', process.env.NODE_ENV === 'dev');
   }
 }
