@@ -33,7 +33,7 @@ function Pagination({ url, parsed }: IPagination) {
   const { status, data } = useQuery(['query', url], () => getPostList(url));
 
   if (status === 'error' || !data) {
-    console.log('나중에 없앨꺼야');
+    console.log('페이지네이션 에러: 나중에 없앨꺼야');
     return <p>페이지네이션 에러</p>;
   }
 
