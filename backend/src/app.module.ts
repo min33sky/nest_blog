@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import { PostsModule } from './posts/posts.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-// import * as mongoose from 'mongoose';
+import * as mongoose from 'mongoose';
 // import { LoggerMiddleware } from 'src/common/middlewares/logger.middleware';
 
 @Module({
@@ -32,6 +32,6 @@ export class AppModule implements NestModule {
     // console.log('env: ', process.env.NODE_ENV);
     // 모든 라우터에 로그 미들웨어 적용
     // consumer.apply(LoggerMiddleware).forRoutes('*');
-    // mongoose.set('debug', process.env.NODE_ENV === 'dev');
+    mongoose.set('debug', process.env.NODE_ENV === 'development');
   }
 }

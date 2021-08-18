@@ -5,7 +5,6 @@ import { HttpExceptionFilter } from 'src/common/exceptionFilters/http-exception.
 import { LoggingInterceptor } from 'src/common/interceptors/logging.interceptor';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { AppModule } from './app.module';
-import * as mongoose from 'mongoose';
 
 declare const module: any;
 
@@ -22,9 +21,6 @@ async function bootstrap() {
 
   //* Gloabl Filters
   app.useGlobalFilters(new HttpExceptionFilter());
-
-  //* Mongoose Logger
-  mongoose.set('debug', true); //? Development 모드일 때만 true
 
   //* Swagger API document
   const config = new DocumentBuilder()
