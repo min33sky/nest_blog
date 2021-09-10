@@ -1,10 +1,4 @@
 import useInput from '@hooks/useInput';
-import {
-  AuthFormContainer,
-  StyledInput,
-  ButtonWithMarginTop,
-  AuthFormFooter,
-} from '@pages/Auth/Layouts/AuthForm.styles';
 import { setToken } from '@store/auth/auth.slice';
 import { LoginResponse } from '@typings/user';
 import { loginRequest, requestRegister } from '@utils/api';
@@ -85,7 +79,7 @@ function RegisterForm() {
 
         // ? 회원 가입과 동시에 로그인까지 처리
         loginMutation.mutate({ email, password });
-      } catch (error) {
+      } catch (error: any) {
         toast.error(`${error.response.data.message}`, { position: 'bottom-center' });
       }
     },
@@ -93,54 +87,57 @@ function RegisterForm() {
   );
 
   return (
-    <AuthFormContainer>
-      <h3>회원가입</h3>
+    <div>
+      <h3 className="text-3xl text-center text-gray-700">회원가입</h3>
+
       <form onSubmit={onSubmitForm}>
-        <StyledInput
-          autoComplete="email"
+        <input
+          type="email"
           name="email"
           placeholder="이메일"
-          type="email"
           value={email}
           onChange={onChangeEmail}
+          className="auth-input"
         />
-
-        <StyledInput
-          autoComplete="nickname"
+        <input
+          type="text"
           name="nickname"
           placeholder="닉네임"
-          type="text"
           value={nickname}
           onChange={onChangeNickname}
+          className="auth-input"
         />
-
-        <StyledInput
-          autoComplete="new-password"
+        <input
+          type="password"
           name="password"
           placeholder="비밀번호"
-          type="password"
           value={password}
           onChange={onChangePasswordAndCheck}
+          className="auth-input"
         />
-
-        <StyledInput
-          autoComplete="new-password"
+        <input
+          type="password"
           name="passwordConfirm"
           placeholder="비밀번호 확인"
-          type="password"
           value={passwordCheck}
           onChange={onChangePasswordAndCheck}
+          className="auth-input"
         />
 
-        <ButtonWithMarginTop cyan fullWidth>
+        <button type="submit" className="auth-btn">
           회원가입
-        </ButtonWithMarginTop>
+        </button>
 
-        <AuthFormFooter>
-          <Link to="/login">로그인</Link>
-        </AuthFormFooter>
+        <div className="mt-4 flex justify-end">
+          <p>
+            이미 회원이라면?{' '}
+            <Link to="/login" className="font-bold text-indigo-500 hover:text-indigo-600">
+              로그인
+            </Link>
+          </p>
+        </div>
       </form>
-    </AuthFormContainer>
+    </div>
   );
 }
 

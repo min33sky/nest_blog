@@ -1,14 +1,7 @@
 import useInput from '@hooks/useInput';
-import {
-  AuthFormContainer,
-  StyledInput,
-  ButtonWithMarginTop,
-  AuthFormFooter,
-} from '@pages/Auth/Layouts/AuthForm.styles';
 import { setToken } from '@store/auth/auth.slice';
 import { LoginResponse } from '@typings/user';
 import { loginRequest } from '@utils/api';
-import axios, { AxiosResponse } from 'axios';
 import React, { useCallback, useEffect } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
@@ -23,8 +16,6 @@ function LoginForm() {
   // ? react-query를 사용해서 뮤테이트
   const mutation = useMutation(loginRequest, {
     onSuccess: (response: LoginResponse) => {
-      console.log('로그인 성공');
-      console.log('데 이 터: ', response.access_token);
       const token = response.access_token;
       dispatch(setToken(token));
       sessionStorage.setItem('access_token', token);
@@ -35,43 +26,47 @@ function LoginForm() {
   const onSubmitForm = useCallback(
     (e: React.FormEvent) => {
       e.preventDefault();
-      console.log('로그인 정보: ', email, password);
-
       mutation.mutate({ email, password });
     },
     [email, password, mutation]
   );
 
   return (
-    <AuthFormContainer>
-      <h3>로그인</h3>
+    <div>
+      <h3 className="text-3xl text-center text-gray-700">로그인</h3>
+
       <form onSubmit={onSubmitForm}>
-        <StyledInput
-          autoComplete="email"
-          name="email"
-          placeholder="이메일"
+        <input
           type="email"
+          name="email"
+          className="auth-input"
+          placeholder="이메일"
           value={email}
           onChange={onChangeEmail}
         />
-        <StyledInput
-          autoComplete="new-password"
-          name="password"
-          placeholder="비밀번호"
+        <input
           type="password"
+          name="password"
+          className="auth-input"
+          placeholder="비밀번호"
           value={password}
           onChange={onChangePassword}
         />
 
-        <ButtonWithMarginTop cyan fullWidth>
+        <button type="submit" className="auth-btn">
           로그인
-        </ButtonWithMarginTop>
+        </button>
 
-        <AuthFormFooter>
-          <Link to="/register">회원가입</Link>
-        </AuthFormFooter>
+        <div className="mt-4 flex justify-end">
+          <p>
+            아이디가 없다면?{' '}
+            <Link to="/register" className="font-bold text-indigo-500 hover:text-indigo-600">
+              회원가입
+            </Link>
+          </p>
+        </div>
       </form>
-    </AuthFormContainer>
+    </div>
   );
 }
 

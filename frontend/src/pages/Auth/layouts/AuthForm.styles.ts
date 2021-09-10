@@ -27,19 +27,3 @@ export const StyledInput = styled.input`
     margin-top: 1rem;
   }
 `;
-
-export const AuthFormFooter = styled.div`
-  margin-top: 2rem;
-  text-align: right;
-  a {
-    color: ${oc.gray[6]};
-    text-decoration: underline;
-    &:hover {
-      color: ${oc.gray[9]};
-    }
-  }
-`;
-
-export const ButtonWithMarginTop = styled(Button)`
-  margin-top: 1rem;
-`;

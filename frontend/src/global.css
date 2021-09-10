@@ -1,0 +1,13 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@layer components {
+  .auth-btn {
+    @apply flex mt-4 bg-indigo-500  w-full text-white text-xl font-bold items-center h-14 justify-center rounded-md hover:bg-indigo-600 transition ease-in;
+  }
+
+  .auth-input {
+    @apply w-full h-10 mt-4 focus:outline-none p-1 border-b-2 text-lg placeholder-gray-400 text-gray-700;
+  }
+}
