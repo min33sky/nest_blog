@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import { IPost } from '@typings/post';
 import { useSelector } from 'react-redux';
 import { RootState } from '@store/store';
+import { PencilAltIcon } from '@heroicons/react/outline';
 
 const PostListBlock = styled(Responsive)`
   margin-top: 3rem;
@@ -74,20 +75,20 @@ function PostList({ url }: { url: string }) {
   }
 
   return (
-    <PostListBlock>
-      <WritePostButtonWrapper>
+    <div className="px-4 mx-auto mt-4 md:max-w-screen-lg">
+      <div className="fixed px-5 py-5 transition bg-indigo-400 rounded-full opacity-50 cursor-pointer right-10 bottom-20 hover:bg-indigo-500 hover:opacity-80 ">
         {isLoggedIn && (
-          <Button cyan to="/write">
-            새 글 작성하기
-          </Button>
+          <Link to="/write">
+            <PencilAltIcon className="h-8" />
+          </Link>
         )}
-      </WritePostButtonWrapper>
+      </div>
       <div>
         {data.posts.map((post) => (
           <PostItem key={post._id} post={post} />
         ))}
       </div>
-    </PostListBlock>
+    </div>
   );
 }
 

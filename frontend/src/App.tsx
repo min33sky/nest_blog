@@ -1,14 +1,15 @@
-import LoginPage from '@pages/Auth/Login/LoginPage/LoginPage';
-import RegisterPage from '@pages/Auth/Register/RegisterPage/RegisterPage';
-import PostPage from '@pages/Post/PostPage';
-import PostListPage from '@pages/PostList/PostListPage';
-import WritePage from '@pages/Write/WritePage';
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Route, Switch } from 'react-router-dom';
 // ? 리액트 토스트 관련 모듈
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const Login = lazy(() => import('./pages/Auth/Login/LoginPage/LoginPage'));
+const Register = lazy(() => import('./pages/Auth/Register/RegisterPage/RegisterPage'));
+const PostList = lazy(() => import('./pages/PostList/PostListPage'));
+const Write = lazy(() => import('./pages/Write/WritePage'));
+const Post = lazy(() => import('./pages/Post/PostPage'));
 
 export default function App() {
   return (
@@ -17,14 +18,17 @@ export default function App() {
         <title>NEST BLOG</title>
       </Helmet>
 
-      <Switch>
-        <Route component={PostListPage} exact path={['/@:nickname', '/']} />
-        <Route component={LoginPage} path="/login" />
-        <Route component={RegisterPage} path="/register" />
-        <Route component={WritePage} path={['/write/:postId', '/write']} />
-        <Route component={PostPage} path="/@:nickname/:postId" />
-      </Switch>
+      <Suspense fallback={<p>Loading....</p>}>
+        <Switch>
+          <Route component={PostList} exact path={['/@:nickname', '/']} />
+          <Route component={Login} path="/login" />
+          <Route component={Register} path="/register" />
+          <Route component={Write} path={['/write/:postId', '/write']} />
+          <Route component={Post} path="/@:nickname/:postId" />
+        </Switch>
+      </Suspense>
 
+      {/* 리액트 토스트 */}
       <ToastContainer />
     </>
   );

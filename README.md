@@ -16,6 +16,7 @@
 - React
 - Redux
 - React Query
+- tailwindcss
 
 ---
 
